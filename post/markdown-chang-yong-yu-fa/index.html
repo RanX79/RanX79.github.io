@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Markdown常用语法 | Ran Xue</title>
+<meta name="description" content="是冉冉升起的冉">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://ranx79.github.io/RX.github.io//favicon.ico?v=1661227424748">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://ranx79.github.io/RX.github.io//styles/main.css">
+
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://ranx79.github.io/RX.github.io/">Ran Xue</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>Markdown常用语法</h1>
+            <p class="article-meta">
+              2022-08-23
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <h1 id="1-标题">1 标题</h1>
+<pre><code>一个#是一级标题，二个#是二级标题，以此类推。支持六级标题。
+</code></pre>
+<h1 id="2-字体">2 字体</h1>
+<p>加粗：要加粗的文字左右分别用<strong>两个*号</strong>包起来<br>
+斜体：要倾斜的文字左右分别用<strong>一个*号</strong>包起来<br>
+斜体加粗：要倾斜和加粗的文字左右分别用<strong>三个*号</strong>包起来<br>
+删除线：要加删除线的文字左右分别用<strong>两个~~号</strong>包起来<br>
+example：<br>
+<strong>这是加粗的文字</strong><br>
+<em>这是倾斜的文字</em>`<br>
+<em><strong>这是斜体加粗的文字</strong></em><br>
+<s>这是加删除线的文字</s></p>
+<h1 id="3-引用">3 引用</h1>
+<p>在引用的文字前加&gt;即可。引用也可以嵌套，如加两个&gt;&gt;三个&gt;&gt;&gt; n个...<br>
+example：</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>这是引用的内容<br>
+#4 图片<br>
+![图片alt](图片地址 ''图片title'')</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>图片alt就是显示在图片下面的文字，相当于对图片内容的解释。<br>
+图片title是图片的标题，当鼠标移到图片上时显示的内容。title可加可不加</p>
+<h1 id="5-超链接">5 超链接</h1>
+<p><a href="%E8%B6%85%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80" title="超链接title">超链接名</a><br>
+title可加可不加<br>
+<a href="超链接地址" target="_blank">超链接名</a></p>
+<h1 id="代码">代码</h1>
+<p>单行代码：代码之间分别用一个反引号包起来<br>
+<code>代码内容</code><br>
+代码块：代码之间分别用三个反引号包起来，且两边的反引号单独占一行<br>
+(<code>)     print('学习好累')      print('但是')     print('今天也要加油哦！') (</code>)</p>
+<h1 id="流程图">流程图</h1>
+<pre><code class="language-flow">st=&gt;start: 开始
+op=&gt;operation: My Operation
+cond=&gt;condition: Yes or No?
+e=&gt;end
+st-&gt;op-&gt;cond
+cond(yes)-&gt;e
+cond(no)-&gt;op
+&amp;```
+
+~~~mermaid
+graph TD
+A --&gt; B
+​~~~</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://ranx79.github.io/RX.github.io/post/python-xue-xi-ri-zhi/">
+                <h3 class="post-title">
+                  Python学习日志
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://ranx79.github.io/RX.github.io//images/avatar.png?v=1661227424748" class="no-responsive avatar">
+    <div class="text-muted">是冉冉升起的冉</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/markdown-chang-yong-yu-fa/">Markdown常用语法</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/python-xue-xi-ri-zhi/">Python学习日志</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/gong-lu-pu-fen-xi/">功率谱分析</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/gridea-yuan-cheng-lian-jie-github-bao-cuo/">Gridea远程连接GitHub</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/about/">关于</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/hello-gridea/">Hello Gridea</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://ranx79.github.io/RX.github.io/tag/FHRkZlVNN/" class="badge secondary">
+          Gridea
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://ranx79.github.io/RX.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+
+  </body>
+</html>

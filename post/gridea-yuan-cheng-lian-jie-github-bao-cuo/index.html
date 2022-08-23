@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Gridea远程连接GitHub | Ran Xue</title>
+<meta name="description" content="是冉冉升起的冉">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://ranx79.github.io/RX.github.io//favicon.ico?v=1661227424748">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://ranx79.github.io/RX.github.io//styles/main.css">
+
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://ranx79.github.io/RX.github.io/">Ran Xue</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>Gridea远程连接GitHub</h1>
+            <p class="article-meta">
+              2022-08-08
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <!-- more -->
+<p>My Address:https://ranx79.github.io/RX.github.io/</p>
+<h1 id="gridea远程连接github报错">Gridea远程连接GitHub报错：</h1>
+<h2 id="1-connect-etimedout-20205243166443">* 1 connect ETIMEDOUT 20.205.243.166:443</h2>
+<h3 id="解决方法">解决方法：</h3>
+<pre><code>手动绑定访问最快的节点ip
+Steps：
+1）输入地址
+[网址] (https://ping.chinaz.com)
+在ping检测中输入域名https://github.com；
+2）在检测中找到未超时且响应时间最短的IP；
+3）打开C:\Windows\System32\drivers\etc\hosts，在最后加上DNS解析；
+修改hosts文件
+1.在系统开始菜单中，找到并右击Windows PowerShell以管理员身份运行；
+2.输入命令 cd C:\Windows\System32\drivers\etc 切换至hosts文件目录；
+3.输入命令notepad hosts，用记事本打开hosts文件；
+在文件最后添加复制的最短的IP号  github.com
+4.修改后，按Ctrl+S保存即可
+</code></pre>
+<h2 id="2-unable-to-verify-the-first-certificate">* 2 unable to verify the first certificate</h2>
+<pre><code>关掉fastgithub即可；
+</code></pre>
+<h2 id="3-read-econnreset">* 3 read ECONNRESET</h2>
+<pre><code>远程连接成功，但同步失败。
+</code></pre>
+<!-- more -->
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://ranx79.github.io/RX.github.io/post/hello-gridea/">
+                <h3 class="post-title">
+                  Hello Gridea
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://ranx79.github.io/RX.github.io//images/avatar.png?v=1661227424748" class="no-responsive avatar">
+    <div class="text-muted">是冉冉升起的冉</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/markdown-chang-yong-yu-fa/">Markdown常用语法</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/python-xue-xi-ri-zhi/">Python学习日志</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/gong-lu-pu-fen-xi/">功率谱分析</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/gridea-yuan-cheng-lian-jie-github-bao-cuo/">Gridea远程连接GitHub</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/about/">关于</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://ranx79.github.io/RX.github.io/post/hello-gridea/">Hello Gridea</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://ranx79.github.io/RX.github.io/tag/FHRkZlVNN/" class="badge success">
+          Gridea
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://ranx79.github.io/RX.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+
+  </body>
+</html>
