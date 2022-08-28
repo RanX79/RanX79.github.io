@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Gridea远程连接GitHub | Ran Xue</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ranx79.github.io/RX.github.io//favicon.ico?v=1661661742089">
+<link rel="stylesheet" href="https://ranx79.github.io/RX.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+My Address:https://ranx79.github.io/RX.github.io/
+Gridea远程连接GitHub报错：
+* 1 connect ETIMEDOUT 20.205.243.166:443
+解决方法：
+手动..." />
+    <meta name="keywords" content="Gridea" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://ranx79.github.io/RX.github.io/">
+        <img src="https://ranx79.github.io/RX.github.io//images/avatar.png?v=1661661742089" class="site-logo">
+        <h1 class="site-title">Ran Xue</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      是冉冉升起的冉
+    </div>
+    <div class="site-footer">
+      今天也要好好学习哦！ | <a class="rss" href="https://ranx79.github.io/RX.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Gridea远程连接GitHub</h2>
+            <div class="post-date">2022-08-08</div>
+            
+            <div class="post-content" v-pre>
+              <!-- more -->
+<p>My Address:https://ranx79.github.io/RX.github.io/</p>
+<h1 id="gridea远程连接github报错">Gridea远程连接GitHub报错：</h1>
+<h2 id="1-connect-etimedout-20205243166443">* 1 connect ETIMEDOUT 20.205.243.166:443</h2>
+<h3 id="解决方法">解决方法：</h3>
+<pre><code>手动绑定访问最快的节点ip
+Steps：
+1）输入地址
+[网址] (https://ping.chinaz.com)
+在ping检测中输入域名https://github.com；
+2）在检测中找到未超时且响应时间最短的IP；
+3）打开C:\Windows\System32\drivers\etc\hosts，在最后加上DNS解析；
+修改hosts文件
+1.在系统开始菜单中，找到并右击Windows PowerShell以管理员身份运行；
+2.输入命令 cd C:\Windows\System32\drivers\etc 切换至hosts文件目录；
+3.输入命令notepad hosts，用记事本打开hosts文件；
+在文件最后添加复制的最短的IP号  github.com
+4.修改后，按Ctrl+S保存即可
+</code></pre>
+<h2 id="2-unable-to-verify-the-first-certificate">* 2 unable to verify the first certificate</h2>
+<pre><code>关掉fastgithub即可；
+</code></pre>
+<h2 id="3-read-econnreset">* 3 read ECONNRESET</h2>
+<pre><code>远程连接成功，但同步失败。
+</code></pre>
+<!-- more -->
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://ranx79.github.io/RX.github.io/tag/FHRkZlVNN/" class="tag">
+                    Gridea
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

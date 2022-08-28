@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>NCL奇异值分解 | Ran Xue</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ranx79.github.io/RX.github.io//favicon.ico?v=1661661742089">
+<link rel="stylesheet" href="https://ranx79.github.io/RX.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="SVD方法
+
+奇异值分解SVD(Singular Value Decomposition)是一种矩阵分解方法，在气象领域中常用来分析两个气象场场之间的相关关系。
+SVD方法中几个特殊名词的概念
+左场，右场，分别对应我们的要求的两个变量场，谁..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://ranx79.github.io/RX.github.io/">
+        <img src="https://ranx79.github.io/RX.github.io//images/avatar.png?v=1661661742089" class="site-logo">
+        <h1 class="site-title">Ran Xue</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      是冉冉升起的冉
+    </div>
+    <div class="site-footer">
+      今天也要好好学习哦！ | <a class="rss" href="https://ranx79.github.io/RX.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">NCL奇异值分解</h2>
+            <div class="post-date">2022-08-26</div>
+            
+            <div class="post-content" v-pre>
+              <p>SVD方法</p>
+<!-- more -->
+<p>奇异值分解SVD(Singular Value Decomposition)是一种矩阵分解方法，在气象领域中常用来<strong>分析两个气象场</strong>场之间的相关关系。<br>
+<strong>SVD方法中几个特殊名词的概念</strong></p>
+<pre><code>左场，右场，分别对应我们的要求的两个变量场，谁左谁右并不重要。
+左场提取的模态称为左奇异向量，右场提取的模态为右奇异向量。需要注意的是，各个场的奇异向量均为相互正交的。
+第一左奇异向量和第一右奇异向量及其各自的时间系数共同构成了SVD的第一模态，也可以叫第一对模态。
+总体相关系数，指的是一对奇异向量对应的左右时间系数的相关系数，用来看左场第一模态和右场第一模态的相关性（总体相关系数是一个数）。
+同性相关系数，表示原场和原场某一模态的时间序列的相关系数（为一个场），在一定程度上可以反应该变量的一个遥相关型。
+异性相关系数，代表原场（比如左场）和对立场（比如右场）某个模态的时间序列的相关系数（为一个场），表是一个场对另一个场的影响关键区。
+</code></pre>
+<p>NCL的函数库中与SVD相关的函数包括<strong>svd_lapack，svdcov，svdcov_sv，svdstd，svdstd_sv</strong>。</p>
+<p><strong>svd_lapack</strong></p>
+<pre><code>用于计算一般矩形矩阵的奇异值分解。具体写法为：
+s   = svd_lapack (a, &quot;S&quot; , &quot;S&quot;, 0,  u, v)
+这里，a是一个(/nca,nra/)矩阵，两个“S”为固定写法，0表示输出v时不转置(1则表示转置v)，
+u和v 分别为左、右奇异向量，u的长度和属性都和a相同，而v的长度为(/nca,nca/)，属性也与a相同。
+</code></pre>
+<p><strong>svdcov</strong></p>
+<pre><code>对两个场进行奇异值分解，并返回与这两个场相关的左右同构和异构数组。具体写法为：
+svd_rv = svdcov(s,z,nsvd,homlft,hetlft,homrgt,hetrgt)
+这里，s为(/ncols,ntime/)的气象场，z为(/ncolz,ntime/), 二者都为float或者double。     
+nsvd为计算的svd模态数。homlft,hetlft,homrgt,hetrgt分别为左同构场、左异构场、右同构场合右异构场。
+它们的属性如下：
+        homlft：(/nsvd,ncols/),typeof(s)  hetlft：(/nsvd,ncols/),typeof(s)
+        homrgt：((/nsvd,ncolz/),typeof(s)
+        hetrgt：((/nsvd,ncolz/),typeof(s)
+时间系数为：
+        ak   = onedtond(svd_rv@ak,(/nsvd,ntime/)) 
+        bk   = onedtond(svd_rv@bk,(/nsvd,ntime/))  
+        ak!0 = &quot;sv&quot;  
+        ak!1 = &quot;time&quot;  
+        bk!0 = &quot;sv&quot;  
+        bk!1 = &quot;time&quot;
+</code></pre>
+<p><strong>svdcov_sv</strong></p>
+<pre><code>该命令与svdcov的区别在于，它只返回两个输入数据集相关联的左右奇异向量。
+</code></pre>
+<p><strong>svdstd、svdstd_sv</strong></p>
+<pre><code>它们与svdcov、svdcov_sv的区别在于，它们首先对输入的数组进行了标准化处理，然后再进行SVD计算，而svdcov、svdcov_sv不会对输入的数据进行标准化处理。
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://ranx79.github.io/RX.github.io/post/python-xue-xi-day2/">
+                  <h3 class="post-title">
+                    Python学习 day2
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
