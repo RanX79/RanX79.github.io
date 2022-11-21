@@ -1,0 +1,386 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ncl加方框 | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1669021458689">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="ncl加方框 | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="lat1 = (/75,  75, 45, 45, 75/)
+lon1 = (/150, 60, 60, 150,150/)
+;SATw  40°N~75°N, 30°W~120°W
+lat2 = (/75,  75, 45, 45, 75..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1669021458689" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              ncl加方框
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-11-09
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>lat1 = (/75,  75, 45, 45, 75/)<br>
+lon1 = (/150, 60, 60, 150,150/)</p>
+<p>;SATw  40°N~75°N, 30°W~120°W<br>
+lat2 = (/75,  75, 45, 45, 75/)<br>
+lon2 = (/-120, -30, -30, -120,-120/)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(0) = gsn_add_polyline(wks,plot(0),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(1) = gsn_add_polyline(wks,plot(0),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(2) = gsn_add_polyline(wks,plot(1),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(3) = gsn_add_polyline(wks,plot(1),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(4) = gsn_add_polyline(wks,plot(2),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(5) = gsn_add_polyline(wks,plot(2),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(6) = gsn_add_polyline(wks,plot(3),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(7) = gsn_add_polyline(wks,plot(3),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(8) = gsn_add_polyline(wks,plot(4),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(9) = gsn_add_polyline(wks,plot(4),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(10) = gsn_add_polyline(wks,plot(5),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(11) = gsn_add_polyline(wks,plot(5),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(12) = gsn_add_polyline(wks,plot(6),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(13) = gsn_add_polyline(wks,plot(6),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(14) = gsn_add_polyline(wks,plot(7),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(15) = gsn_add_polyline(wks,plot(7),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(16) = gsn_add_polyline(wks,plot(8),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(17) = gsn_add_polyline(wks,plot(8),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(18) = gsn_add_polyline(wks,plot(9),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(19) = gsn_add_polyline(wks,plot(9),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(20) = gsn_add_polyline(wks,plot(10),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(21) = gsn_add_polyline(wks,plot(10),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(22) = gsn_add_polyline(wks,plot(11),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(23) = gsn_add_polyline(wks,plot(11),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(24) = gsn_add_polyline(wks,plot(12),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(25) = gsn_add_polyline(wks,plot(12),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(26) = gsn_add_polyline(wks,plot(13),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(27) = gsn_add_polyline(wks,plot(13),lon2,lat2,gres)</p>
+<p>==========================================================================<br>
+gres                 = True</p>
+<pre><code>gres@gsLineThicknessF = 2.5 
+gres@gsLineColor       = &quot;black&quot;
+;gres@gsFillOpacityF=0.1
+</code></pre>
+<p>;  gres@tfPolyDrawOrder = &quot;Draw&quot;  ; this can be used for polylines, polymarkers, or polygons<br>
+;SATE 40°N~75°N, 60°E~150°E<br>
+delete(lat1)<br>
+delete(lat2)<br>
+lat1 = (/75,  75, 40, 40, 75/)<br>
+lon1 = (/150, 60, 60, 150,150/)</p>
+<p>;SATw  40°N~75°N, 30°W~120°W<br>
+lat2 = (/75,  75, 40, 40, 75/)<br>
+lon2 = (/-120, -30, -30, -120,-120/)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(0) = gsn_add_polyline(wks,plot(0),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(1) = gsn_add_polyline(wks,plot(0),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(2) = gsn_add_polyline(wks,plot(1),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(3) = gsn_add_polyline(wks,plot(1),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(4) = gsn_add_polyline(wks,plot(2),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(5) = gsn_add_polyline(wks,plot(2),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(6) = gsn_add_polyline(wks,plot(3),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(7) = gsn_add_polyline(wks,plot(3),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(8) = gsn_add_polyline(wks,plot(4),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(9) = gsn_add_polyline(wks,plot(4),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(10) = gsn_add_polyline(wks,plot(5),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(11) = gsn_add_polyline(wks,plot(5),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(12) = gsn_add_polyline(wks,plot(6),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(13) = gsn_add_polyline(wks,plot(6),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(14) = gsn_add_polyline(wks,plot(7),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(15) = gsn_add_polyline(wks,plot(7),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(16) = gsn_add_polyline(wks,plot(8),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(17) = gsn_add_polyline(wks,plot(8),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(18) = gsn_add_polyline(wks,plot(9),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(19) = gsn_add_polyline(wks,plot(9),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(20) = gsn_add_polyline(wks,plot(10),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(21) = gsn_add_polyline(wks,plot(10),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(22) = gsn_add_polyline(wks,plot(11),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(23) = gsn_add_polyline(wks,plot(11),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(24) = gsn_add_polyline(wks,plot(12),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(25) = gsn_add_polyline(wks,plot(12),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(26) = gsn_add_polyline(wks,plot(13),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(27) = gsn_add_polyline(wks,plot(13),lon2,lat2,gres)</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/linux-chang-yong-ming-ling/">
+              <h3 class="post-title">
+                Linux常用命令
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

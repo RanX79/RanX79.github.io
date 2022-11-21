@@ -1,0 +1,312 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python学习 day3-画图设置 | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1669021458689">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Python学习 day3-画图设置 | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="画图！画好看的图图！
+plt.figure.
+figure(num=None, figsize=None, dpi=None, facecolor=None, edgecolor=None, frameon=True)
+
+num：图像编号或..." />
+    <meta name="keywords" content="python" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1669021458689" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Python学习 day3-画图设置
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-08-31
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/ZhhwPASHX/" class="post-tag">
+                  # python
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>画图！画好看的图图！<br>
+<font color=red><center><strong>plt.figure</strong>.</font></center></p>
+<pre><code>figure(num=None, figsize=None, dpi=None, facecolor=None, edgecolor=None, frameon=True)
+</code></pre>
+<p>num：图像编号或名称，数字为编号 ，字符串为名称<br>
+figsize：指定figure的宽和高，单位为英寸；<br>
+dpi：参数指定绘图对象的分辨率，即每英寸多少个像素，缺省值为80      1英寸等于2.5cm,A4纸是 21*30cm的纸张<br>
+facecolor：背景颜色<br>
+edgecolor：边框颜色<br>
+frameon：是否显示边框</p>
+<pre><code>import matplotlib.pyplot as plt
+# 创建自定义图像
+fig=plt.figure(figsize=(4,3),facecolor='blue')
+plt.show()
+</code></pre>
+<p><font color=red><center><strong>subplot创建单个子图</strong>.</font></center></p>
+<pre><code>subplot(nrows,ncols,sharex,sharey,subplot_kw,**fig_kw)
+</code></pre>
+<p>nrows：行数<br>
+ncols：列数<br>
+sharex：所有subplot应该使用相同的x轴刻度（调节xlim会影响所有的subplot）<br>
+sharey：所有subplot应该使用相同的y轴刻度（调节ylim会影响所有的subplot）<br>
+subplot_kw：用于创建subplot的关键字字典<br>
+**fig_kw：创建figure时的其他关键字，例如plt.subplots(2,2,figsize=(8,6))<br>
+subplot可以规划figure划分为n个子图，但每条subplot命令只会创建一个子图 ，参考下面例子。</p>
+<pre><code>import numpy as np  
+import matplotlib.pyplot as plt  
+x = np.arange(0, 100)  
+#作图1
+plt.subplot(221)  
+plt.plot(x, x)  
+#作图2
+plt.subplot(222)  
+plt.plot(x, -x)  
+#作图3
+plt.subplot(223)  
+plt.plot(x, x ** 2)  
+plt.grid(color='r', linestyle='--', linewidth=1,alpha=0.3)
+#作图4
+plt.subplot(224)  
+plt.plot(x, np.log(x))  
+plt.show()
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://RanX79.github.io//post-images/1661928443970.png" alt="" loading="lazy"></figure>
+<p><font color=red><center><strong>subplots创建多个子图</strong>.</font></center></p>
+<pre><code>import numpy as np  
+import matplotlib.pyplot as plt
+
+x = np.arange(0, 100)  
+#划分子图
+fig,axes=plt.subplots(2,2)
+ax1=axes[0,0]
+ax2=axes[0,1]
+ax3=axes[1,0]
+ax4=axes[1,1]
+
+#作图1
+ax1.plot(x, x)  
+#作图2
+ax2.plot(x, -x)
+#作图3
+ax3.plot(x, x ** 2)
+ax3.grid(color='r', linestyle='--', linewidth=1,alpha=0.3)
+#作图4
+ax4.plot(x, np.log(x))  
+plt.show()
+</code></pre>
+<p><font color=red><center><strong>add_subplot新增子图</strong>.</font></center><br>
+可以用来做一些子图及图中图<br>
+import numpy as np<br>
+import matplotlib.pyplot as plt<br>
+x = np.arange(0, 100)<br>
+#新建figure对象<br>
+fig=plt.figure()<br>
+#新建子图1<br>
+ax1=fig.add_subplot(2,2,1)<br>
+ax1.plot(x, x)<br>
+#新建子图3<br>
+ax3=fig.add_subplot(2,2,3)<br>
+ax3.plot(x, x ** 2)<br>
+ax3.grid(color='r', linestyle='--', linewidth=1,alpha=0.3)<br>
+#新建子图4<br>
+ax4=fig.add_subplot(2,2,4)<br>
+ax4.plot(x, np.log(x))<br>
+plt.show()<br>
+<img src="https://RanX79.github.io//post-images/1661928625364.png" alt="" loading="lazy"></p>
+<p><font color=red><center><strong>add_axes新增子区域</strong>.</font></center><br>
+add_axes为新增子区域，该区域可以座落在figure内任意位置，且该区域可任意设置大小<br>
+<em><strong>ax1 = fig.add_axes([left, bottom, width, height])</strong></em><br>
+import numpy as np<br>
+import matplotlib.pyplot as plt</p>
+<pre><code>#新建figure
+fig = plt.figure()
+# 定义数据
+x = [1, 2, 3, 4, 5, 6, 7]
+y = [1, 3, 4, 2, 5, 8, 6]
+#新建区域ax1
+#figure的百分比,从figure 10%的位置开始绘制, 宽高是figure的80%
+left, bottom, width, height = 0.1, 0.1, 0.8, 0.8
+# 获得绘制的句柄
+ax1 = fig.add_axes([left, bottom, width, height])
+ax1.plot(x, y, 'r')
+ax1.set_title('area1')
+
+#新增区域ax2,嵌套在ax1内
+left, bottom, width, height = 0.2, 0.6, 0.25, 0.25
+# 获得绘制的句柄
+ax2 = fig.add_axes([left, bottom, width, height])
+ax2.plot(x,y, 'b')
+ax2.set_title('area2')
+plt.show()
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://RanX79.github.io//post-images/1661928741569.png" alt="" loading="lazy"></figure>
+<p>💫来源：<a href="https://www.cnblogs.com/SupremeBoy/p/12247671.html">CSDN</a>✍️</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/python-xue-xi-day3/">
+              <h3 class="post-title">
+                Python学习 day3-数据处理
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

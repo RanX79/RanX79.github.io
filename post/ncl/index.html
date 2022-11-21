@@ -1,0 +1,321 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NCL | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1669021458689">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="NCL | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="ncl色标常用设置
+res@lbOrientation=&quot;Vertical&quot; ;竖直放置
+res@lbBoxEndCapStyle      = &quot;TriangleBothEnds&quot;  ；两段为三角形..." />
+    <meta name="keywords" content="ncl" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1669021458689" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              NCL
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-09-19
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/X3VSMdMO5/" class="post-tag">
+                  # ncl
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><font color=red><center><strong>ncl色标常用设置</strong></font></center></p>
+<pre><code>res@lbOrientation=&quot;Vertical&quot; ;竖直放置
+res@lbBoxEndCapStyle      = &quot;TriangleBothEnds&quot;  ；两段为三角形
+res@tmYRMode             = &quot;Automatic&quot;          ; turn off special labels on right axis
+res@@lbLabelsOn             = True
+res@lbLabelFontHeightF      = 0.02     ;set the size of label bar words
+res@pmLabelBarHeightF      = 0.15     
+res@tmYROn=False  ;关闭刻度
+;res@tmYRBorderOn =False ;关闭线
+res@tmYRLabelsOn  =False
+
+
+resp@pmLabelBarParallelPosF     = 0.17  ;色标左右移动
+;resp@pmLabelBarOrthogonalPosF   = -0.1  ;色标上下移动
+resp@pmLabelBarWidthF         = 0.5   ;长度
+resp@pmLabelBarHeightF        = 0.07  ;宽度
+; resp@lbLabelFontHeightF       = 0.015
+</code></pre>
+<p><font color=red><center><strong>坐标轴字体大小设置</strong></font></center></p>
+<pre><code>res@tmXBLabelFontHeightF    = 0.02     ;set the size of x-Axis words
+res@tmYLLabelFontHeightF    = 0.02    ;set the size of y-Axis words
+注意极地投影经纬度的字体大小设置为：
+res1@gsnPolarLabelFontHeightF= .04
+
+res_vec@tmYRMode             = &quot;Automatic&quot;          ; turn off special labels on right axis
+res_vec@tiYAxisString=&quot;&quot;
+res@tmYRLabelsOn = False
+res@gsnPresHgtHeightLabelOn = False
+</code></pre>
+<p><font color=red><center><strong>colorbar设置</strong></font></center></p>
+<pre><code>;res1@cnLevelSelectionMode= &quot;ExplicitLevels&quot;
+;res1@cnLevels = (/-12,-10,-8,-6,-4,-2,0,2,4/); 值
+;res1@cnFillColors =     (/2,4,5,6,7,8,9,11,15,17,19/) ;颜色设置
+
+
+res1@cnLevelSelectionMode = &quot;ManualLevels&quot;       ; manually select levels
+res1@cnLevelSpacingF      = 0.5              ; contour spacing
+res1@cnMinLevelValF       = -4              ; min level
+res1@cnMaxLevelValF       = 4             ; max level
+</code></pre>
+<p><font color=red><center><strong>等值线标签</strong></font></center></p>
+<pre><code>res1@cnInfoLabelOn               = False  
+</code></pre>
+<p><font color=red><center><strong>等值线数值标签</strong></font></center><br>
+res1@cnLineLabelsOn =False</p>
+<p><font color=red><center><strong>图片之间间隔</strong></font></center></p>
+<pre><code>resp@gsnPanelYWhiteSpacePercent=3
+</code></pre>
+<p><font color=red><center><strong>数组维度转换</strong></font></center></p>
+<pre><code>z_D1 =f_z-&gt;$varnameh$(D,{levP},{lat1:lat2},:)
+z_D  = reshape(z_D1,(/1,dsizes(0),dsizes(1)/))
+printVarSummary(z_D)
+</code></pre>
+<p><font color=red><center><strong>创建文件若存在则删除</strong></font></center></p>
+<pre><code>outFx=&quot;/raid63/xran/Research_ERA5/why/TN_Fulx_data/TN2001-Fx&quot;+fmon+&quot;&quot;+fyear+&quot;.monthly.nc&quot;
+if (isfilepresent(outFx)) then
+    system(&quot;rm -f &quot;+outFx)
+end if
+</code></pre>
+<p><font color=red><center><strong>提取每一年对应的月</strong></font></center></p>
+<pre><code>ctime = time(fstep:lstep:12) ;每年对应的月
+nctime = dimsizes(ctime)     
+zvar = zvarorg(fstep:lstep:12,:,:,:)
+</code></pre>
+<p><font color=red><center><strong>组图一张图时不居中</strong></font></center><br>
+resp@gsnPanelCenter = False</p>
+<p><font color=red><center><strong>时间提取</strong></font></center></p>
+<pre><code>yyyymm = cd_calendar(eof_ts&amp;time,-2)/100 
+</code></pre>
+<p><font color=red><center><strong>xy轴型图片添加网格</strong></font></center><br>
+;res1@tmXMajorGrid= True;, Turns on the grid in the x-direction.<br>
+;res1@tmXMajorGridThicknessF      = 1.0           ; 2.0 is default<br>
+;res1@tmXMajorGridLineDashPattern = 2             ; select short dash lines</p>
+<pre><code>;res1@tmYMajorGrid                = True          ; implement y grid
+;res1@tmYMajorGridThicknessF      = 1.0           ; 2.0 is default
+;res1@tmYMajorGridLineDashPattern = 2             ; select short dash lines
+</code></pre>
+<p><font color=red><center><strong>计算月平均值</strong></font></center></p>
+<pre><code>calculate_monthly_values
+具体使用见ncl官网
+读取一年的每日值（时间，水平，纬度，经度）并计算月平均值。该值为类型为“short”，带有scale_factor和“加法偏移量”。n基准是指“时间”维度（n基准=0）。
+
+f = addfile(&quot;air.day.2008.nc&quot;,&quot;r&quot;)
+x = short2flt(f-&gt;air)
+printVarSummary(x)
+opt = True
+opt@nval_crit = 12   ; require at least 12 values for the &quot;avg&quot; is calculated.
+xMon = calculate_monthly_values (x, &quot;avg&quot;, 0,opt)
+printVarSummary(xMon)
+输出如下所示：
+Variable: xMon
+Type: float
+
+Number of Dimensions: 4
+Dimensions and sizes:   [time | 12] x [level | 17] x [lat | 73] x [lon | 144]
+Coordinates: 
+time: [17593032..17601072]
+level: [1000..10]
+lat: [90..-90]
+lon: [ 0..357.5]
+</code></pre>
+<p><font color=red><center><strong>维度</strong></font></center></p>
+<pre><code>nlat = dimsizes(lat)
+nlon = dimsizes(lon)
+nlevel = dimsizes(level)
+res_vec@tmYRMode             = &quot;Automatic&quot;          ; turn off special labels on right axis  
+</code></pre>
+<p><font color=red><center><strong>将变量输出保存</strong></font></center><br>
+运行ncl命令时ncl *.ncl &gt;&amp;1.txt将变量输出保存</p>
+<p><font color=red><center><strong>出图图片旋转</strong></font></center><br>
+gsnPaperOrientation = ″portrait″（纵向）″landscape″（横向）</p>
+<p><font color=red><center><strong>°符号</strong></font></center><br>
+[&quot;+youwantlats+&quot;-&quot;+youwantlate+&quot;<sub>S</sub>o<sub>N</sub>N]</p>
+<p><font color=red><center><strong>提取变量的时间维度</strong></font></center><br>
+date    = cd_calendar(x&amp;time,-2)        ; yyyymmdd<br>
+yrfrac  = yyyymmdd_to_yyyyfrac (date, 0)<br>
+delete(yrfrac@long_name)<br>
+delete(x@long_name)</p>
+<pre><code>pStrt = 19950101      ; 4 years: winter 96-97 MJO gold standard
+pLast = 19981231
+iStrt = ind(date.eq.pStrt)        ; user specified dates
+iLast = ind(date.eq.pLast)
+delete(date)
+</code></pre>
+<p><a href="https://www.ncl.ucar.edu/Applications/Scripts/filters_3.ncl">ncl链接</a></p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/cdo/">
+              <h3 class="post-title">
+                CDO
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

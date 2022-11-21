@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://RanX79.github.io/</id>
+    <title>Ran Xue</title>
+    <updated>2022-11-21T09:33:22.722Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://RanX79.github.io/"/>
+    <link rel="self" href="https://RanX79.github.io/atom.xml"/>
+    <subtitle>是冉冉升起的冉</subtitle>
+    <logo>https://RanX79.github.io/images/avatar.png</logo>
+    <icon>https://RanX79.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, Ran Xue</rights>
+    <entry>
+        <title type="html"><![CDATA[ncl加方框]]></title>
+        <id>https://RanX79.github.io/post/ncl-jia-fang-kuang/</id>
+        <link href="https://RanX79.github.io/post/ncl-jia-fang-kuang/">
+        </link>
+        <updated>2022-11-09T08:49:00.000Z</updated>
+        <content type="html"><![CDATA[<p>lat1 = (/75,  75, 45, 45, 75/)<br>
+lon1 = (/150, 60, 60, 150,150/)</p>
+<p>;SATw  40°N~75°N, 30°W~120°W<br>
+lat2 = (/75,  75, 45, 45, 75/)<br>
+lon2 = (/-120, -30, -30, -120,-120/)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(0) = gsn_add_polyline(wks,plot(0),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(1) = gsn_add_polyline(wks,plot(0),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(2) = gsn_add_polyline(wks,plot(1),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(3) = gsn_add_polyline(wks,plot(1),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(4) = gsn_add_polyline(wks,plot(2),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(5) = gsn_add_polyline(wks,plot(2),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(6) = gsn_add_polyline(wks,plot(3),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(7) = gsn_add_polyline(wks,plot(3),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(8) = gsn_add_polyline(wks,plot(4),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(9) = gsn_add_polyline(wks,plot(4),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(10) = gsn_add_polyline(wks,plot(5),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(11) = gsn_add_polyline(wks,plot(5),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(12) = gsn_add_polyline(wks,plot(6),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(13) = gsn_add_polyline(wks,plot(6),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(14) = gsn_add_polyline(wks,plot(7),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(15) = gsn_add_polyline(wks,plot(7),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(16) = gsn_add_polyline(wks,plot(8),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(17) = gsn_add_polyline(wks,plot(8),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(18) = gsn_add_polyline(wks,plot(9),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(19) = gsn_add_polyline(wks,plot(9),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(20) = gsn_add_polyline(wks,plot(10),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(21) = gsn_add_polyline(wks,plot(10),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(22) = gsn_add_polyline(wks,plot(11),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(23) = gsn_add_polyline(wks,plot(11),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(24) = gsn_add_polyline(wks,plot(12),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(25) = gsn_add_polyline(wks,plot(12),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(26) = gsn_add_polyline(wks,plot(13),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(27) = gsn_add_polyline(wks,plot(13),lon2,lat2,gres)</p>
+<p>==========================================================================<br>
+gres                 = True</p>
+<pre><code>gres@gsLineThicknessF = 2.5 
+gres@gsLineColor       = &quot;black&quot;
+;gres@gsFillOpacityF=0.1
+</code></pre>
+<p>;  gres@tfPolyDrawOrder = &quot;Draw&quot;  ; this can be used for polylines, polymarkers, or polygons<br>
+;SATE 40°N~75°N, 60°E~150°E<br>
+delete(lat1)<br>
+delete(lat2)<br>
+lat1 = (/75,  75, 40, 40, 75/)<br>
+lon1 = (/150, 60, 60, 150,150/)</p>
+<p>;SATw  40°N~75°N, 30°W~120°W<br>
+lat2 = (/75,  75, 40, 40, 75/)<br>
+lon2 = (/-120, -30, -30, -120,-120/)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(0) = gsn_add_polyline(wks,plot(0),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(1) = gsn_add_polyline(wks,plot(0),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(2) = gsn_add_polyline(wks,plot(1),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(3) = gsn_add_polyline(wks,plot(1),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(4) = gsn_add_polyline(wks,plot(2),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(5) = gsn_add_polyline(wks,plot(2),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(6) = gsn_add_polyline(wks,plot(3),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(7) = gsn_add_polyline(wks,plot(3),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(8) = gsn_add_polyline(wks,plot(4),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(9) = gsn_add_polyline(wks,plot(4),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(10) = gsn_add_polyline(wks,plot(5),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(11) = gsn_add_polyline(wks,plot(5),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(12) = gsn_add_polyline(wks,plot(6),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(13) = gsn_add_polyline(wks,plot(6),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(14) = gsn_add_polyline(wks,plot(7),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(15) = gsn_add_polyline(wks,plot(7),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(16) = gsn_add_polyline(wks,plot(8),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(17) = gsn_add_polyline(wks,plot(8),lon2,lat2,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(18) = gsn_add_polyline(wks,plot(9),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(19) = gsn_add_polyline(wks,plot(9),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(20) = gsn_add_polyline(wks,plot(10),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(21) = gsn_add_polyline(wks,plot(10),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;red&quot;<br>
+dum(22) = gsn_add_polyline(wks,plot(11),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(23) = gsn_add_polyline(wks,plot(11),lon2,lat2,gres)</p>
+<pre><code>delete(gres@gsLineColor  )
+</code></pre>
+<p>gres@gsLineColor       = &quot;red&quot;<br>
+dum(24) = gsn_add_polyline(wks,plot(12),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(25) = gsn_add_polyline(wks,plot(12),lon2,lat2,gres)</p>
+<p>delete(gres@gsLineColor  )<br>
+gres@gsLineColor     = &quot;red&quot;<br>
+dum(26) = gsn_add_polyline(wks,plot(13),lon1,lat1,gres)<br>
+delete(gres@gsLineColor  )<br>
+gres@gsLineColor       = &quot;blue&quot;<br>
+dum(27) = gsn_add_polyline(wks,plot(13),lon2,lat2,gres)</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Linux常用命令]]></title>
+        <id>https://RanX79.github.io/post/linux-chang-yong-ming-ling/</id>
+        <link href="https://RanX79.github.io/post/linux-chang-yong-ming-ling/">
+        </link>
+        <updated>2022-11-08T02:07:49.000Z</updated>
+        <content type="html"><![CDATA[<p><img src="https://RanX79.github.io//post-images/1667873283802.jpg" alt="" loading="lazy"><br>
+<a href="https://blog.csdn.net/chenfang0529/article/details/108752461">参考链接1</a><br>
+<a href="https://blog.csdn.net/l18848956739/article/details/93859531?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160084439419726892409941%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=160084439419726892409941&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-93859531.first_rank_ecpm_v3_pc_rank_v2&amp;utm_term=linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4&amp;spm=1018.2118.3001.4187">参考链接2</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[低频波 高频波 瞬变波 定常波？]]></title>
+        <id>https://RanX79.github.io/post/di-pin-bo-gao-pin-bo-shun-bian-bo-ding-chang-bo/</id>
+        <link href="https://RanX79.github.io/post/di-pin-bo-gao-pin-bo-shun-bian-bo-ding-chang-bo/">
+        </link>
+        <updated>2022-11-07T03:31:02.000Z</updated>
+        <content type="html"><![CDATA[<p>波动是大气扰动特征的表现，常定义为对时间平均场和纬向平均场的偏差，是中纬度大气运动最明显的特征之一，是维持动量、热量和水汽的全球输送以及中高纬大气气候态的重要过程。波动按照时间尺度常分为高频波动和低频波动。<br>
+高频波动常指生命周期在2-10天的天气尺度瞬变变，对应温带气旋、反气旋和锋面系统等天气现象，其动力学本质是指由斜压不稳定产生的斜压波。<br>
+低频波动指时间尺度在10-90天的波动，主要指时间尺度长，移动缓慢的行星波动。</p>
+<p>高低频波动在波动的纬向传播中是反向的。高频波动使得急流加速，即造成急流的纬向不对称性，低频波动的作用是消除这种不对称性，使得急流趋于纬向均匀。</p>
+<p><em>戴祥霖. 冬季北半球低频扰动能量的特征、形成机制及模拟研究[D].南京大学,2020.DOI:10.27235/d.cnki.gnjiu.2020.002114.</em></p>
+<hr>
+<p><font color=red><strong>定常波</strong></font>：又称定常涡旋、 定常涡动, 通常是指物理量的纬向不对称部分。大气中的定常波对大气环流的维持和变化都有重要作用。<br>
+把纬向平均环流偏差的时间平均定义为定常波。它表示时间平均图上的纬向偏差值，又称定常涡旋项，主要反映大气活动中心、高空平均槽脊以及季风等特征。其三维结构主要用半球时间平均场的纬向不对称分布和经度——高度剖面图表征。</p>
+<p>定常波垂直结构。在较高纬度上位势高度场随高度向西倾斜，而且定常波倾斜向上伸展到平流层下部，这种西倾反映了定常波的热量通量在各层上都是指向极地的。高度场中定常波振幅随高度明显增加直到对流层顶，这表明定常波的垂直结构中有一个相当正压分量（即随高度没有位相倾斜）。<br>
+<img src="https://RanX79.github.io//post-images/1668393040037.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1668393215203.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1668393277768.jpg" alt="" loading="lazy"></p>
+<p><a href="https://kns.cnki.net/KXReader/Detail?invoice=eS%2FcXoT1GLfp04EJfwguppbWu70xmYxaqQunNCQhW7mlNUqD3qitu1LEf7RTLW8ocAHnJMMvrLbVKWDbt%2BdkcMAo4UMbshBex%2BIIDRcsF1dEtO1A6RnjtzpUkKefWvQfs4hCu6Td4PkLWhdjEdxJq7XTopR6CsITmLw8TnGEops%3D&amp;DBCODE=CJFD&amp;FileName=DQXK200703000&amp;TABLEName=cjfd2007&amp;nonce=C008C86850F3401A865D1338620B5769&amp;uid=&amp;TIMESTAMP=1668391998181">王林,陈文,黄荣辉,黄刚.北半球定常波输送西风动量的气候态及其年变化[J].大气科学,2007(03):377-388.</a></p>
+<hr>
+<p><font color=red><strong>瞬变波</strong></font>：相对于时间平均气流而变化及移动的大气扰动。通常把瞬变波动粗略的分为高频（一周以内）和低频（10天以上）两部分。<br>
+<img src="https://RanX79.github.io//post-images/1667800780098.jpg" alt="" loading="lazy"></p>
+<hr>
+<p><img src="https://RanX79.github.io//post-images/1667976554682.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1667982914651.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1667979659985.jpg" alt="" loading="lazy"></p>
+<p><a href="https://journals.ametsoc.org/view/journals/atsc/42/3/1520-0469_1985_042_0217_ottdpo_2_0_co_2.xml">Plumb波活动通量</a><br>
+Plumb, R.A., 1985. On the Three-Dimensional Propagation of Stationary Waves. Journal of the Atmospheric Sciences 42, 217–229.. doi:10.1175/1520-0469(1985)042&lt;0217:ottdpo&gt;2.0.co;2<br>
+<img src="https://RanX79.github.io//post-images/1667792397930.jpg" alt="" loading="lazy"></p>
+<p><a href="https://journals.ametsoc.org/view/journals/atsc/58/6/1520-0469_2001_058_0608_afoapi_2.0.co_2.xml">T-N通量</a><br>
+Takaya, K., Nakamura, H., 2001. A Formulation of a Phase-Independent Wave-Activity Flux for Stationary and Migratory Quasigeostrophic Eddies on a Zonally Varying Basic Flow. Journal of the Atmospheric Sciences 58, 608–627.. doi:10.1175/1520-0469(2001)058&lt;0608:afoapi&gt;2.0.co;2<br>
+由Takaya和Nakamura（2001;以下简称TN01）推导出的WAF可以明确地描绘瞬态涡流在纬向变化的基本流中的传播，其方向与罗斯比波的局部三维群速度平行。WAF的发散和收敛也暗示了波包的源和汇。</p>
+<p>Plumb85的文章是基于纬向平均的异常位势高度计算的，另外还用纬向平均的温度来计算位温。<br>
+TN01基于气候态平均的异常位势高度计算，另外还用到daily（or monthly） T, U, V</p>
+<p>参考文献：</p>
+<p>韦晋,朱伟军.天气尺度瞬变波滤波方案比较分析[J].南京气象学院学报,2006(04):549-554.DOI:10.13878/j.cnki.dqkxxb.2006.04.017.</p>
+<p><a href="https://renqlsysu.github.io/2020/02/16/wave_activity_flux/">参考链接</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[E矢量]]></title>
+        <id>https://RanX79.github.io/post/e-shi-liang/</id>
+        <link href="https://RanX79.github.io/post/e-shi-liang/">
+        </link>
+        <updated>2022-10-24T11:06:23.000Z</updated>
+        <content type="html"><![CDATA[<p>defined by <a href="https://click.endnote.com/viewer?doi=10.1175%2F1520-0469%281983%29040%3C1595%3Atspamf%3E2.0.co%3B2&amp;token=WzM1MjAyNTksIjEwLjExNzUvMTUyMC0wNDY5KDE5ODMpMDQwPDE1OTU6dHNwYW1mPjIuMC5jbzsyIl0.haIjsT6mexmvZvo8rgSQw9DHQHM">Hoskins et al,1983</a>,<br>
+The Shape, propagation and mean-flow interaction of large-scale weather systems<br>
+In pressure coordinates:<br>
+<img src="https://RanX79.github.io//post-images/1666693960533.png" alt="" loading="lazy"><br>
+在三维准地转近似条件下，是EP通量的近似扩展，发现该公式对于纬向平均时，最后两个分量与Eliassen-Palm通量的分量相同。<br>
+The E vector can be referred to as an extended Eliassen-Palm flux, whose convergence (divergence) suggests a possible increase (decrease) of wave activity density. The direction of E vector approximately indicates the group velocity (velocity of energy propagation) of Rossby waves relative to the mean flow. It is also an effective tool diagnosing the eddy feedback onto the mean flow. The westerly wind slows down when E vectors converge. The westerly wind slows down when E vectors converge.<br>
+<img src="https://RanX79.github.io//post-images/1666694577568.png" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1666694655429.png" alt="" loading="lazy"><br>
+从北半球250 hPa的低频以及高频瞬变涡旋的结果看，低频涡旋的E矢量居然向西传。</p>
+<p><a href="https://renqlsysu.github.io/2020/02/16/wave_activity_flux/">参考链接</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数据处理过程]]></title>
+        <id>https://RanX79.github.io/post/shu-ju-chu-li-guo-cheng/</id>
+        <link href="https://RanX79.github.io/post/shu-ju-chu-li-guo-cheng/">
+        </link>
+        <updated>2022-10-10T11:53:05.000Z</updated>
+        <content type="html"><![CDATA[<p>cdo -b F32 select,name=z /hpcraid61/ECMWF/ERA5/daily6hr/1x1/z/era5_4xdaily_z_[1-2]* /raid63/xran/Research_ERA5/data/hgt_daily_1950_2021.nc</p>
+<p>cdo daymean /raid63/xran/Research_ERA5/data/hgt_daily_1950_2021.nc /raid63/xran/Research_ERA5/data/hgt_dailymean_1950_2021.nc</p>
+<p>cdo delete,month=2,day=29 /raid63/xran/Research_ERA5/data/hgt_dailymean_1950_2021.nc /raid63/xran/Research_ERA5/data/hgt_dailymean_1950_2021_no229.nc</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[不同的时间尺度]]></title>
+        <id>https://RanX79.github.io/post/bu-tong-de-shi-jian-chi-du/</id>
+        <link href="https://RanX79.github.io/post/bu-tong-de-shi-jian-chi-du/">
+        </link>
+        <updated>2022-10-06T06:44:48.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://RanX79.github.io//post-images/1665038991968.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一些定义的指标]]></title>
+        <id>https://RanX79.github.io/post/yi-xie-ding-yi-de-zhi-biao/</id>
+        <link href="https://RanX79.github.io/post/yi-xie-ding-yi-de-zhi-biao/">
+        </link>
+        <updated>2022-10-05T02:12:52.000Z</updated>
+        <content type="html"><![CDATA[<p>PDO index<br>
+which is defined as the leading principal component ofmonthly SSTAs over the North Pacific poleward of 20°N. More details on this index can be found inMantuaet al. (1997).</p>
+<p>the quasigeostrophic refractive index(RI) is employed to understand the planetary wavepropagation, which is defined byChen and Robinson(1992)as</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Writing]]></title>
+        <id>https://RanX79.github.io/post/writing/</id>
+        <link href="https://RanX79.github.io/post/writing/">
+        </link>
+        <updated>2022-09-30T01:47:12.000Z</updated>
+        <content type="html"><![CDATA[<p><font><center><strong>显著性</strong></font></center><br>
+Areas where the —— are significant at/above the 95% level are stippled.</p>
+<p>The tropospheric waves that can propagate into the stratosphere are the predominant wavenumber-1 and wavenumber-2 waves</p>
+<p><code>Charney, J. G. &amp; Drazin, P. G. Propagation of planetary-scale disturbancesfrom the lower into the upper atmosphere.J. Geophys. Res.66,83–109 (1961).</code></p>
+<hr>
+<p>the strengthening of the SAV is indeed closely related to the weakening of the upward propagation of the wavenumber-1 planetary wave.</p>
+<p>The polar cap height (PCH) anomaly is a good indicatorof the variability of the polar vortex. Here, the sign-reversed geopotential height (NPCH) anomalies averaged over 65°N–90°N at 50 hPa are used to describe the strength of the SAV, i.e., apositive (negative) NPCH anomaly corresponds to a strengthened(weakened) SAV.</p>
+<p><code>Baldwin, M. P. &amp; Thompson, D. W. J. A critical comparison of stratosphere-troposphere coupling indices.Quart. J. Roy. Meteor. Soc.135, 1661–1672 (2009).</code></p>
+<hr>
+<p><font><center>纬度余弦</font></center><br>
+The gridded data of the vertical component (EPz) of EP flux were weighted by the square root of the cosine of latitude to ensure that equal areas were afforded equal weight in the analyses.</p>
+<p><font><center>回归</font></center><br>
+We regressed the wintertime unweighted anomaly fields upon the standardized principal component (PC) time series and plotted the resulting regression coefficients. Thus, the val-ues in the regression maps corresponded to anomaly values that were associated with one standard deviation anomaly in the PC time series. The linear correlation coefficients were calculated between time series. A two-tailed Student’s t-test was employed to test the significance of the results.</p>
+<p><code>Wei, K., Ma, J., Chen, W., Vargin, P., 2021. Longitudinal peculiarities of planetary waves-zonal flow interactions and their role in stratosphere-troposphere dynamical coupling. Climate Dynamics 57, 2843–2862.. doi:10.1007/s00382-021-05842-5</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[计算T-N通量时遇到的问题！]]></title>
+        <id>https://RanX79.github.io/post/ji-suan-t-n-tong-liang-shi-yu-dao-de-wen-ti/</id>
+        <link href="https://RanX79.github.io/post/ji-suan-t-n-tong-liang-shi-yu-dao-de-wen-ti/">
+        </link>
+        <updated>2022-09-27T02:16:11.000Z</updated>
+        <content type="html"><![CDATA[<p><img src="https://RanX79.github.io//post-images/1664245043601.png" alt="" loading="lazy"><br>
+根据计算公式，首先计算流函数，注意流函数计算时是相对于气候场的扰动，气候场根据研究需要定义，我选用多年平均对应的月。其次注意公式中u、v、t选取的值为气候态的值。</p>
+<p>注意波通量的一个假设就是地转近似，所以T-N通量适用于中高纬地区，在低纬就不成立。低纬度时f很小，在计算流函数时（streamf = g<em>za/f），一般会将10°S-10°N的f值设为缺测，使得结果更合理。在TN通量严格的定义中，流函数是地转流函数，所以要用重力位势（位势高度</em>g）来算。中高纬用风场来算的和用重力位势来算的差不多，但在低纬就会有明显差别。</p>
+<p>1、服务器中逐月数据v缺少1964年的6、7、8、9四个月，下次使用该数据时注意选取的时间范围。现在处理将时间范围更换至1970-2020年。因此在计算中要特别注意数据的信息，查阅数据信息可以使用：</p>
+<pre><code>ncdump -c 数据文件
+cdo sinfo 数据文件
+</code></pre>
+<p>同时注意ERA数据位势高度场单位为m2/s2，注意是乘了g的，但是ncep的数据中没有乘g，单位为m。而在计算通量时使用的是位势高度，因此需要除Gravitational acceleration ga=9.80665。在研究中要特别注意数据的格式。</p>
+<p>2、计算中忽略了风场小于5m/s的值，但是在高层风场很小时就没有通量，这种情况怎么处理？将风速范围调整至大于0m/s西方带中。风速的具体设置根据具体研究。</p>
+<pre><code>; missing for 10S - 10N
+do ilat = 0, nlat-1
+    if (abs(lat(ilat) ).lt. 10. ) then
+        f(ilat)= f@_FillValue
+    end if
+end do
+</code></pre>
+<p>3、计算的Fz通量的量级是否和xy方向的差1000倍？<br>
+Fz方向量级较小，在实际画垂直方向时需要放大100或1000倍。</p>
+<p>**; 实际应用中位势扰动场可以用位势扰动的合成场或回归场等代替，以计算合成场或回归场的WAF。 **</p>
+<p>4、使用的位势高度场数据是将原始的数据回归至EOF对应的PC1时间序列上，且计算流函数时没有使用UV风场，而是使用streamf = g*za/f，这两种计算有何不同？低纬度可能会有差异。</p>
+<p>5、画图时低层和高层差值较大，是否只画高层？ 一般选择画200 hPa以上平流层。如果是经纬度图，一般选择画200 hPa研究波列。</p>
+<p>6、数据分辨率过高可能导致许多错误的微小的信号，因此可以将分辨率降低，调整至2.5*2.5。数据分辨率调整可以使用CDO。</p>
+<p>7、与数据类型是否有关？double和float型。检验之后发现数据类型造成的差异较小。数据类型转换也可以使用cdo。</p>
+<p>8、画垂直剖面可能会受到平均流的影响造成结果异常。</p>
+<p><strong>具体量的计算：</strong></p>
+<p>地球自转角速度：</p>
+<pre><code>omega=2.*pi/(60.*60.*24.)
+</code></pre>
+<p>; Coriolis parameter<br>
+; f0为科氏参数，公式为f0=2Ωsinφ</p>
+<pre><code>f =  2.*2.*pi/(60.*60.*24.)*sin(pi/180. * lat(:))
+</code></pre>
+<p>位温：<br>
+<img src="https://RanX79.github.io//post-images/1666490576048.jpg" alt="" loading="lazy"></p>
+<pre><code>theta=ctvar*(1000./leveltmp)^0.286
+</code></pre>
+<p>大气标高设置为8000m，气压标高公式：<br>
+<img src="https://RanX79.github.io//post-images/1666490515973.jpg" alt="" loading="lazy"></p>
+<pre><code>z=-sclhgt*log(level/1000)
+</code></pre>
+<p>dthetadz是位温对高度的差分，高度可以根据气压推算，也是近似值；gc为气体常数</p>
+<pre><code>dthetadz = center_finite_diff_n(theta,z,False,0,0)
+dthetadz=center_finite_diff_n(ctvar*(1000./leveltmp)^0.286,-sclhgt*log(level/1000),False,0,0)
+</code></pre>
+<p>浮力频率：<br>
+; Brunt Vaisala frequency<br>
+<img src="https://RanX79.github.io//post-images/1666490384778.jpg" alt="" loading="lazy"></p>
+<pre><code>NN = (gc*(leveltmp/1000.)^0.286)/sclhgt * dthetadz
+</code></pre>
+<p><a href="https://www.bilibili.com/read/cv15633261">python计算代码</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[波通量]]></title>
+        <id>https://RanX79.github.io/post/bo-tong-liang/</id>
+        <link href="https://RanX79.github.io/post/bo-tong-liang/">
+        </link>
+        <updated>2022-09-26T05:39:22.000Z</updated>
+        <content type="html"><![CDATA[<p>大气动力学诊断Rossby波的传播时通常用<strong>波作用通量</strong>来表示。常用的三种波作用通量分别为Plumb波作用通量T-N波作用通量和局地 E-P通量；<br>
+Plumb波作用通量的纬向分量较大而经向分量较小，适用于振幅较小的纬向均匀的西风带Rossby长波的诊断。T-N波作用通量是对Plumb波作用通量的改进，经向分量得以增强，能更好地描述纬向非均匀气流中的较大振幅的西风带Rossby长波扰动。T-N波作用通量计算时背景场取多年平均的当月气候场较合适，能更好地反映当前季节内的Rossby波传播异常。局地 E-P通量可以诊断一段时间内天气尺度瞬变波对背景场(定常波)总的调控作用，但无法直接反映Rossby长波的逐时演变，TN波或Plumb波作用通量则可以。</p>
+<p>T-N通量传播方向说明什么？槽脊系统？能量传播？</p>
+]]></content>
+    </entry>
+</feed>
