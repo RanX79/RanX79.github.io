@@ -1,0 +1,229 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gridea远程连接GitHub | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Gridea远程连接GitHub | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="My Address:https://ranx79.github.io/RX.github.io/
+Gridea远程连接GitHub报错：
+* 1 connect ETIMEDOUT 20.205.243.166:443
+解决方法：
+手动绑..." />
+    <meta name="keywords" content="Gridea" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Gridea远程连接GitHub
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-08-08
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/FHRkZlVNN/" class="post-tag">
+                  # Gridea
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>My Address:https://ranx79.github.io/RX.github.io/</p>
+<h1 id="gridea远程连接github报错">Gridea远程连接GitHub报错：</h1>
+<h2 id="1-connect-etimedout-20205243166443">* 1 connect ETIMEDOUT 20.205.243.166:443</h2>
+<h3 id="解决方法">解决方法：</h3>
+<pre><code>手动绑定访问最快的节点ip
+Steps：
+1）输入地址
+[网址] (https://ping.chinaz.com)
+在ping检测中输入域名https://github.com；
+2）在检测中找到未超时且响应时间最短的IP；
+3）打开C:\Windows\System32\drivers\etc\hosts，在最后加上DNS解析；
+修改hosts文件
+1.在系统开始菜单中，找到并右击Windows PowerShell以管理员身份运行；
+2.输入命令 cd C:\Windows\System32\drivers\etc 切换至hosts文件目录；
+3.输入命令notepad hosts，用记事本打开hosts文件；
+在文件最后添加复制的最短的IP号  github.com
+4.修改后，按Ctrl+S保存即可
+</code></pre>
+<h2 id="2-unable-to-verify-the-first-certificate">* 2 unable to verify the first certificate</h2>
+<pre><code>关掉fastgithub即可；
+</code></pre>
+<h2 id="3-read-econnreset">* 3 read ECONNRESET</h2>
+<pre><code>远程连接成功，但同步失败。
+
+同步的时候记得先等自己的云同步完成，可能会因为自己的云同步导致同步失败。
+</code></pre>
+<p>✍️连接方法：<a href="https://zhuanlan.zhihu.com/p/71681116">知乎</a></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#gridea%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5github%E6%8A%A5%E9%94%99">Gridea远程连接GitHub报错：</a>
+<ul>
+<li><a href="#1-connect-etimedout-20205243166443">* 1 connect ETIMEDOUT 20.205.243.166:443</a>
+<ul>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">解决方法：</a></li>
+</ul>
+</li>
+<li><a href="#2-unable-to-verify-the-first-certificate">* 2 unable to verify the first certificate</a></li>
+<li><a href="#3-read-econnreset">* 3 read ECONNRESET</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

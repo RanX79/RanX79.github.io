@@ -1,0 +1,355 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python学习 day3-数据处理 | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Python学习 day3-数据处理 | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="python 利用Xarray处理nc数据
+注意数据的格式(经纬度范围、分辨率、时间格式、变量等基本信息）
+查看数据信息
+import xarray as xr
+f = xr.open_dataset('D:\download\hgt.mo..." />
+    <meta name="keywords" content="python" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Python学习 day3-数据处理
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-08-31
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/ZhhwPASHX/" class="post-tag">
+                  # python
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>python 利用Xarray处理nc数据</p>
+<p><font color=red>注意数据的格式(经纬度范围、分辨率、时间格式、变量等基本信息）</font><br>
+<font color=Blue><center><strong>查看数据信息</strong></font></center></p>
+<pre><code>import xarray as xr
+f = xr.open_dataset('D:\download\hgt.mon.mean.nc')
+print(f)
+#查看维度信息
+lat=f.lat
+lon=f.lon
+time=f.time
+print(lat)
+</code></pre>
+<p>时间格式为：***datetime64[ns]***时最方便，直接索引即可。<br>
+eg：<br>
+* time     (time) datetime64[ns] 1948-01-01 1948-02-01 ... 2019-01-01<br>
+需要选取2005年到2010年冬季的数据</p>
+<pre><code>#选取2005年到2010年冬季的数据
+hgt = f['hgt'].loc[f.time.dt.month.isin([12,1,2])].loc  ['2005-12-01':'2011-02-01']
+print(hgt)
+#选取夏季数据
+hgt_JJA= f['hgt'].loc[f.time.dt.season=='DJF']
+print(hgt_JJA)
+#叠加时间和范围的选取
+#a = tmax.loc[:,40:55,115:135].loc[tmax.time.dt.season=='JJA']
+</code></pre>
+<p>当格式为object</p>
+<pre><code>import xarray as xr
+f = xr.open_dataset('/data/home/zenggang/yxy/CMIP6/SSP245/CanESM5/tas/t2m.nc')    
+f= f.assign_coords(time = f.indexes['time'].to_datetimeindex())
+tas = f['tas'].loc[f.time.dt.month.isin([12,1,2])].loc      ['2015-12-01':'2100-02-28']
+</code></pre>
+<p>有的模式的时间是0时(比如说 1979-01-01 00:00:00)，而有的模式的时间是12时(比如说 1979-01-01 12:00:00)，如果需要统一的话，只需要搭配datetime库进行调整即可，比如说将所有的12时变为0时：</p>
+<pre><code>from datetime import datetime, timedelta
+f = f.assign_coords(time = (f.indexes['time'].to_datetimeindex()- timedelta(hours=12)))
+</code></pre>
+<p>#在得到了一个DataArray之后，用于画图时，需要获取他的经度、纬度、高度等</p>
+<pre><code>f.coords['time']
+f['time']
+print(f['time'])
+</code></pre>
+<p><font color=Blue><center><strong>索引数据</strong></font></center><br>
+Xarray官方提供了三种方法用来索引数据：<br>
+1.利用下标索引(index)<br>
+2.利用坐标值索引(coords)<br>
+3.利用标签索引(labels)<br>
+<img src="https://RanX79.github.io//post-images/1661915454377.webp" alt="" loading="lazy"><br>
+da指DataArray;ds指Dataset</p>
+<pre><code>#method 1
+print(hgt[:2])
+#method 2
+print(hgt[:, [2, 1]])
+#method 3
+print(f['hgt'].loc['2000-01':'2003-01'].lat[45:90])
+h=f['hgt'] .loc['time1':'time2',lat1:lat2,lon1:lon2]
+print(h)
+#索引出来的数据直接可以修改或者计算
+</code></pre>
+<p>#数据缺测处理<br>
+print(hgt.where(hgt.lat &lt; 60))<br>
+首先建立一个带有缺测的dataarray<br>
+x = xr.DataArray([0, 1, np.nan, np.nan, 2], dims=['x'])<br>
+print(x)<br>
+判断是否缺测,还有notnull()函数<br>
+print(x.isnull())<br>
+判断有几个未缺测<br>
+print(x.count())<br>
+去除缺测<br>
+print(x.dropna(dim='x'))<br>
+将缺测填为-1<br>
+print(x.fillna(-1))</p>
+<p><font color=Blue><center><strong>插值</strong></font></center><br>
+.interp()函数<br>
+<a href="https://www.jianshu.com/p/e884d177ee62">插值</a></p>
+<p>比如说气象上需要求逐周，逐旬，逐候的数据，处理起来很麻烦，我们则可以使用这个方法先将其聚块，再进行平均。<br>
+print(da.coarsen(time=7).mean())<br>
+coarsen(time=7)将时间轴每7天固定在一起，通过平均函数，得到了逐周的平均结果。<br>
+但是这里364是可以整除7的，如果不能刚好整除的话，还提供了一些参数来处理边界结果。<br>
+boundary='trim'，或者boundary='pad'.<br>
+trim是指末尾多余的不参与计算，或者叫修建多余条目。<br>
+pad指填充nan到不足的地方，补全为可以整除的更大数据再进行聚块。</p>
+<p>还可以通过coord_func函数返回不同的坐标信息。<br>
+比如说默认下，7天平均，结果的时间是第4天，就是中间那天，但是通过coord_func={'time': 'min'}可以指定时间为最小的那天。</p>
+<hr>
+<p><font color=Blue><center><strong>数据整合（分组，合并）</strong></font></center><br>
+split·将数据分为多个独立的组。<br>
+apply·对各个组进行操作。<br>
+combine·将各个组合并为一个数据对象。</p>
+<hr>
+<p><font color=Blue><center><strong>读取及生成nc文件</strong></font></center><br>
+读取nc文件</p>
+<pre><code>ds = xr.open_dataset('ds.nc')
+xr.open_mfdataset('my/files/*.nc', parallel=True)
+</code></pre>
+<p>生成nc文件</p>
+<pre><code>ds = xr.Dataset({'prec': (('xy', 'time'), np.random.rand(4, 5))},coords={'lat': ('xy', [15, 25, 35, 45]),'lon': ('xy', [15, 25, 35, 45]),'time': pd.date_range('2000-01-01', periods=5),})
+print(ds)
+ds.to_netcdf('output.nc')
+</code></pre>
+<hr>
+<p><font color=Blue><center><strong>读取txt文件</strong></font></center></p>
+<pre><code>data = pd.read_csv(&quot;cslist.txt&quot;,sep=',',header=None, names=['a','b','c','d','e','f','g','h','i','j','k']) 
+</code></pre>
+<p>读取txt的同时，对每列赋予了一个列名，通过data.a可以直接按列名调用相应数据。<br>
+对于较复杂的.txt文件，仍可通过该函数读取</p>
+<hr>
+<p><font color=Blue><center><strong>读取grib文件</strong></font></center><br>
+grib文件可通过pygrib库读取<br>
+import pygrib<br>
+f = pygrib.open('xxx.grb')</p>
+<p><font style=background:red size=4><center>常用数据计算方法</font></center><br>
+<font color=Blue><strong>常用的统计方法</strong></font></p>
+<p><em><strong>import numpy as np</strong></em></p>
+<p><font color=pink><strong>平均值</strong></font><br>
+在计算气候态，区域平均时均要使用到求均值函数，对应NCL中的dim_average函数，在python中通常使用** np.mean()**函数</p>
+<center>numpy.mean(a, axis, dtype)</center>
+假设a为[time,lat,lon]的数据，那么
+·axis 不设置值，对 timelatlon 个值求均值，返回一个数
+·axis = 0：压缩时间维，对每一个经纬点求均值，返回 [lat, lon] 数组(如求一个场的N年气候态)
+·axis =1,2 ：压经度纬度，对每个时间求平均值，返回 [time] 矩阵(如求某时间序列，或指数)
+<p>💦气象数据中常有缺测，在NCL中，使用求均值函数会自动略过，而在python中，当任意一数与缺测(np.nan)计算的结果均为np.nan，比如求[1,2,3,4，np.nan]的平均值，结果为np.nan<br>
+因此，当数据存在缺测数据时，通常使用**np.nanmean()<strong>函数，用法同上，此时[1,2,3,4，np.nan]的平均值为(1+2+3+4)/4 = 2.5<br>
+同样的，求某数组最大最小值时也有</strong>np.nanmax(), np.nanmin()**函数来补充np.max(), np.min()的不足。<br>
+其他很多np的计算函数也可以通过在前边加‘nan’来使用。</p>
+<p><font color=pink><strong>标准差</strong></font></p>
+<center>np.std(a, axis, dtype)</center>
+用法同np.mean()
+<p><font color=pink><strong>标准化</strong></font></p>
+<center>np.std(a, axis, dtype)</center>
+在NCL中有直接求数据标准化的函数dim_standardize()，
+<pre><code>x = (x - np.mean(x)) / np.std(x)
+</code></pre>
+<p><font color=pink><strong>相关系数</strong></font><br>
+皮尔逊相关系数：<br>
+numpy函数中的np.corrcoef(x, y)，可以实现相关计算<br>
+scipy.stats中的函数<br>
+from scipy.stats import pearsonr<br>
+r,p = pearsonr(x, y)<br>
+优点是可以直接返回相关系数R及其P值，这避免了我们进一步计算置信度。而缺点则是该函数只支持两个一维数组的计算，也就是说当我们需要计算一个场和一个序列的相关时，我们需要循环来实现。</p>
+<pre><code>r = np.zeros((a.shape[1],a.shape[2]))
+p = np.zeros((a.shape[1],a.shape[2]))
+for i in range(sic.shape[1]):
+    for j in range(sic.shape[2]):
+         r[i,j], p[i,j] = pearsonr(b , a[:,i,j])
+</code></pre>
+<p>其中a[time,lat,lon]，b[time]</p>
+<p><font color=pink><strong>线性回归系数</strong></font><br>
+(NCL中为regcoef()函数)<br>
+同样推荐Scipy库中的stats.linregress(x,y)函数：<br>
+slope, intercept, r_value, p_value, std_err = stats.linregress(x,y)</p>
+<p>slop: 回归斜率<br>
+intercept：回归截距<br>
+r_value： 相关系数<br>
+p_value： P值<br>
+std_err： 估计标准误差<br>
+直接可以输出P值，同样省去了做置信度检验的过程，遗憾的是仍需同相关系数一样循环计算。</p>
+<figure data-type="image" tabindex="1"><img src="https://RanX79.github.io//post-images/1661927378085.jpg" alt="" loading="lazy"></figure>
+<p>💫来源：<a href="https://www.jianshu.com/u/9293eb1f7254">简书-摸鱼咯</a>大佬！！！！✍️</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/da-qi-zhuang-tai-yi-chang/">
+              <h3 class="post-title">
+                大气状态异常
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

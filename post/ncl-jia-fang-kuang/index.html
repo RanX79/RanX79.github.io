@@ -1,0 +1,239 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ncl加方框 | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="ncl加方框 | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="ncl给图片的某一区域添加方框
+gres                 = True
+gres@gsLineThicknessF = 2.5 
+gres@gsLineColor       = &quot;black&quot;
+;gre..." />
+    <meta name="keywords" content="ncl" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              ncl加方框
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-11-09
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/X3VSMdMO5/" class="post-tag">
+                  # ncl
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://RanX79.github.io//post-images/ncl-jia-fang-kuang.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h2 id="ncl给图片的某一区域添加方框">ncl给图片的某一区域添加方框</h2>
+<pre><code>gres                 = True
+gres@gsLineThicknessF = 2.5 
+gres@gsLineColor       = &quot;black&quot;
+;gres@gsFillOpacityF=0.1
+; gres@tfPolyDrawOrder = &quot;Draw&quot;  ; this can be used for polylines, polymarkers, or polygons
+;SATE 40°N~75°N, 60°E~150°E
+lat1 = (/75,  75, 40, 40, 75/)
+lon1 = (/150, 60, 60, 150,150/)
+;SATw  40°N~75°N, 30°W~120°W
+lat2 = (/75,  75, 40, 40, 75/)
+lon2 = (/-120, -30, -30, -120,-120/)
+
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;red&quot;
+dum(0) = gsn_add_polyline(wks,plot(0),lon1,lat1,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;blue&quot;
+dum(1) = gsn_add_polyline(wks,plot(0),lon2,lat2,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;red&quot;
+dum(2) = gsn_add_polyline(wks,plot(1),lon1,lat1,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;blue&quot;
+dum(3) = gsn_add_polyline(wks,plot(1),lon2,lat2,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;red&quot;
+dum(4) = gsn_add_polyline(wks,plot(2),lon1,lat1,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;blue&quot;
+dum(5) = gsn_add_polyline(wks,plot(2),lon2,lat2,gres)
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#ncl%E7%BB%99%E5%9B%BE%E7%89%87%E7%9A%84%E6%9F%90%E4%B8%80%E5%8C%BA%E5%9F%9F%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%A1%86">ncl给图片的某一区域添加方框</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/linux-chang-yong-ming-ling/">
+              <h3 class="post-title">
+                Linux常用命令
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

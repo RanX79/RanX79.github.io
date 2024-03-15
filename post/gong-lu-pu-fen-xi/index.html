@@ -1,0 +1,227 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>功率谱分析 | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="功率谱分析 | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="ncl功率谱分析和小波分析
+
+功率谱分析 季节内变化的周期
+my aim
+对1960-2020年的10-4月位势高度进行EOF分析后，得到其时间序列PC1，对PC1进行功率谱分析，研究其季节内时间尺度。
+
+Q1:年数据预处理是否需要滤波？滤..." />
+    <meta name="keywords" content="数据处理,ncl" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              功率谱分析
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-08-09
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/cYPVpG0jY/" class="post-tag">
+                  # 数据处理
+                </a>
+              
+                <a href="https://RanX79.github.io/tag/X3VSMdMO5/" class="post-tag">
+                  # ncl
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>ncl功率谱分析和小波分析</p>
+<!-- more -->
+<h3 id="功率谱分析-季节内变化的周期">功率谱分析 季节内变化的周期</h3>
+<p>my aim<br>
+对1960-2020年的10-4月位势高度进行EOF分析后，得到其时间序列PC1，对PC1进行功率谱分析，研究其季节内时间尺度。</p>
+<!-- more -->
+<p>Q1:年数据预处理是否需要滤波？滤波的周期选择？取异常场？</p>
+<h3 id="利用ncl进行功率谱分析">利用ncl进行功率谱分析</h3>
+<p>ncl中specxy_anal函数，离散功率谱？年的PC1数据怎么功率谱分析之后变成日的序列？（需要使用逐日的数据）</p>
+<p>###小波分析 年代际周期的变化<br>
+小波分析：2-5年的周期？？</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%8A%9F%E7%8E%87%E8%B0%B1%E5%88%86%E6%9E%90-%E5%AD%A3%E8%8A%82%E5%86%85%E5%8F%98%E5%8C%96%E7%9A%84%E5%91%A8%E6%9C%9F">功率谱分析 季节内变化的周期</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8ncl%E8%BF%9B%E8%A1%8C%E5%8A%9F%E7%8E%87%E8%B0%B1%E5%88%86%E6%9E%90">利用ncl进行功率谱分析</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/gridea-yuan-cheng-lian-jie-github-bao-cuo/">
+              <h3 class="post-title">
+                Gridea远程连接GitHub
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

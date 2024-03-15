@@ -1,0 +1,263 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CDO | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="CDO | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="cdo进行数据插值,将原始的sst.nc文件插值为经纬度网格为144x73的sst_interp.nc文件输出
+cdo remapbic,r144x73 sst.nc sst_interp.nc
+cdo remapbic,r360x181
+..." />
+    <meta name="keywords" content="cdo" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              CDO
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-09-18
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/fBHAhwE5o/" class="post-tag">
+                  # cdo
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://RanX79.github.io//post-images/cdo.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h3 id="cdo进行数据插值将原始的sstnc文件插值为经纬度网格为144x73的sst_interpnc文件输出">cdo进行数据插值,将原始的sst.nc文件插值为经纬度网格为144x73的sst_interp.nc文件输出</h3>
+<p>cdo remapbic,r144x73 sst.nc sst_interp.nc<br>
+cdo remapbic,r360x181<br>
+cdo remapbic,r144<em>73 &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthly_1</em>1.nc&quot; &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthly_2.5*2.5.nc&quot;</p>
+<p>1440x721 0.25*0.25</p>
+<h3 id="合并数据文件">合并数据文件</h3>
+<p>cdo -b F32 select,name=t2m /raid63/xran/Research_ERA5/data/daily6hr/t2m/era5_6hourly_t2m_[2]* /raid63/xran/Research_ERA5/data/daily_merge/t2m/t2m_2000_2021_daily4.nc</p>
+<h3 id="选择区域">选择区域</h3>
+<p>通过如下命令，选择我们需要区域的数据，比如选择115°E-120°E，20°N-30°N之间的区域：</p>
+<p>cdo sellonlatbox,0,360,0,90 &quot;/raid63/xran/Research_ERA5/data/t2m_1950_2021_monthly_1<em>1.nc&quot;  &quot;/raid63/xran/Research_ERA5/data/t2m_1950_2021_monthlyNH_1</em>1.nc&quot;</p>
+<p>cdo sellonlatbox,0,360,0,90 &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthly_1<em>1.nc&quot; &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthlyNH_1</em>1.nc&quot;</p>
+<p>cdo sellonlatbox,0,360,0,90 &quot;/raid63/xran/Research_ERA5/data/t_1950_2021_monthly_1<em>1.nc&quot; &quot;/raid63/xran/Research_ERA5/data/t_1950_2021_monthlyNH_1</em>1.nc&quot;</p>
+<p>cdo  selmon,10 &quot;/raid63/xran/Research_ERA5/data/t2m_1950_2021_monthlyNH_1<em>1.nc&quot; &quot;/raid63/xran/Research_ERA5/data/t2m_1950_2021_10monNH_1</em>1.nc&quot;</p>
+<p>cdo -b F32 select,name=t2m &quot;/raid63/xran/Research_ERA5/data/monthly/t2m_NH*&quot;  /raid63/xran/Research_ERA5/data/monthly/t2m_1950_2021_monNH_1*1.nc</p>
+<h2 id="经纬度反转invert-the-latitudes-from-north-south-to-south-north">经纬度反转Invert the latitudes from north-south to south-north:</h2>
+<p>cdo -invertlat <infile> <outfile></p>
+<h2 id="挑选指定年份">挑选指定年份</h2>
+<p>cdo selyear,2101/2227 in.nc out.nc<br>
+cdo selyear,1970/2020 &quot;/raid63/xran/Research_ERA5/data/daily/hgt_dailymean_1950_2021_no229.nc&quot; &quot;/raid63/xran/Research_ERA5/data/daily/hgt_dailymean_1970_2020_no229.nc&quot;</p>
+<h2 id="数据类型转换">数据类型转换</h2>
+<p>cdo -b F64 copy input.nc output.nc  # 将input文件中float类型的数据更改为double，并另存为output.nc若不加F表示将所有的数据都改为double<br>
+cdo -b F32 copy &quot;/raid63/xran/Research_ERA5/data/t_1950_2021_monthly_2.5<em>2.5.nc&quot; &quot;/raid63/xran/Research_ERA5/data/t_1950_2021_monthly_2.5</em>2.5_f.nc&quot;</p>
+<p>cdo -b F32 copy &quot;/raid63/xran/Research_ERA5/data/u_dailymean_1950_2021_no229.nc&quot; &quot;/raid63/xran/Research_ERA5/data/u_dailymean_1950_2021_no229_f.nc&quot;</p>
+<p>##运算</p>
+<ol>
+<li>Operations with constants:<br>
+1 addc: sum to a constant.<br>
+2 subc: subtracts from a constant.<br>
+3 mulc: multiplies by a constant.<br>
+4 divc: divided by a constant.<br>
+cdo divc,9.8 &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthly_1<em>1.nc&quot; &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthly_1</em>1_z.nc&quot;</li>
+</ol>
+<p>##乘法<br>
+Converting the precipitation of [kg/(m2 s)] to (mm/day).<br>
+cdo mulc,86400 pr.CANESM2.1996.2005.nc pr.mensal.nc<br>
+##减法<br>
+Converting Kelvin temperature (K) to degrees Celsius (oC)<br>
+cdo subc,273.15 tar.NCEP.R2.1996.2005.nc tc.nc<br>
+##更改时间单位<br>
+cdo settunits,hours input.nc output.nc<br>
+cdo setunit,m &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthly_1<em>1_z.nc&quot; &quot;/raid63/xran/Research_ERA5/data/hgt_1950_2021_monthly_1</em>1_z1.nc&quot;</p>
+<p>cdo ymonmean &quot;/raid63/xran/Research_ERA5/data/t2m_dailymean_1950_2021_no229.nc&quot; &quot;/raid63/xran/Research_ERA5/data/t2m_clm_1950_2021_no229.nc&quot;<br>
+##计算月平均<br>
+cdo ymonmean &quot;/raid63/xran/Research_ERA5/data/dailyave/t2m/t2m_1960_2021_dailymean_no229.nc&quot; &quot;/raid63/xran/Research_ERA5/data/t2m_clm_1950_2021_no229.nc&quot;</p>
+<p>##去趋势<br>
+detrend ifile ofile<br>
+cdo detrend /raid63/xran/Research_ERA5/data/daily/t2m_1960_2021_dailymean_no229.nc /raid63/xran/Research_ERA5/data/daily/t2m_1960_2021_dailymean_no229_trend.nc</p>
+<p><a href="https://www.jianshu.com/p/69567bc820f0">cdo的使用--数据的合并，剪裁，更改等</a></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#cdo%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%8F%92%E5%80%BC%E5%B0%86%E5%8E%9F%E5%A7%8B%E7%9A%84sstnc%E6%96%87%E4%BB%B6%E6%8F%92%E5%80%BC%E4%B8%BA%E7%BB%8F%E7%BA%AC%E5%BA%A6%E7%BD%91%E6%A0%BC%E4%B8%BA144x73%E7%9A%84sst_interpnc%E6%96%87%E4%BB%B6%E8%BE%93%E5%87%BA">cdo进行数据插值,将原始的sst.nc文件插值为经纬度网格为144x73的sst_interp.nc文件输出</a></li>
+<li><a href="#%E5%90%88%E5%B9%B6%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6">合并数据文件</a></li>
+<li><a href="#%E9%80%89%E6%8B%A9%E5%8C%BA%E5%9F%9F">选择区域</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%8F%8D%E8%BD%ACinvert-the-latitudes-from-north-south-to-south-north">经纬度反转Invert the latitudes from north-south to south-north:</a></li>
+<li><a href="#%E6%8C%91%E9%80%89%E6%8C%87%E5%AE%9A%E5%B9%B4%E4%BB%BD">挑选指定年份</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">数据类型转换</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/fu-li-xie-bian-huan-fft/">
+              <h3 class="post-title">
+                傅里叶变换：FFT
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

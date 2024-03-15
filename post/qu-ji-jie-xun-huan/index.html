@@ -1,0 +1,329 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>去季节循环及去趋势 | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="去季节循环及去趋势 | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="对于逐月及逐日资料的处理
+
+❓什么时候需要去趋势，什么时候需要去季节循环？
+对于气象资料的基本处理：
+(1) 原始的逐日资料减去对应这一日的气候态，就去掉了季节循环信号（季节循环：90-365 day），只剩下低频信号。
+(2) 原始的逐月..." />
+    <meta name="keywords" content="数据处理,ncl" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              去季节循环及去趋势
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-08-29
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://RanX79.github.io/tag/cYPVpG0jY/" class="post-tag">
+                  # 数据处理
+                </a>
+              
+                <a href="https://RanX79.github.io/tag/X3VSMdMO5/" class="post-tag">
+                  # ncl
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>对于逐月及逐日资料的处理</p>
+<!-- more -->
+<p>❓什么时候需要去趋势，什么时候需要去季节循环？</p>
+<h2 id="对于气象资料的基本处理">对于气象资料的基本处理：</h2>
+<p>(1) 原始的逐日资料减去对应这一日的气候态，就去掉了季节循环信号（季节循环：90-365 day），只剩下低频信号。<br>
+(2) 原始的逐月资料减去对应月份的气候态，就去掉了循环信号，只剩下年际、年代际等异常信号。<br>
+气候态的选取根据你的研究内容，例如做季节内研究一般选择气候态为夏季平均，但有的时候J J A分别作为气候态。</p>
+<p><strong>去季节循环</strong><br>
+1、去趋势 dtrend<br>
+2、daily climatology<br>
+3、FFT分解得到前4个波即为季节循环（90天以上）<br>
+4、数据-季节循环</p>
+<p><font style=background:red><center>1</font></center><br>
+<font color=Blue><strong>clmDayTLL</strong>ncl中求多年日平均的函数</font><br>
+<em>Calculates long term daily means (daily climatology) from daily data.</em><br>
+💫具体见ncl官网例子：<a href="https://www.ncl.ucar.edu/Document/Functions/Contributed/clmDayTLL.shtml">clmDayTLL</a><br>
+Compute the daily climatologies.<br>
+The input is mean daily 500 hPa heights spanning 1990-1999.<br>
+The values are packed as type short and the time is in units &quot;hours since 1-1-1 00:00:0&quot;.<br>
+There was no calendar attribute associated with the 'time' dimension/variable.<br>
+Hence, a gregorian calendar is assumed.<br>
+Still, the example shows how a user might check if the calendar attribute exists and associate it with the required variables.</p>
+<pre><code>;;The following library is loaded by default in NCL V6.2.0 and newer
+;;load &quot;$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl&quot; 
+diri    = &quot;./&quot;                             ; input directory   
+fili    = &quot;HGT.nc&quot;                         ; input file       
+f       = addfile (diri+fili , &quot;r&quot;)                          
+;***********************************************************
+; Read time and create required yyyyddd                    
+; NOte the tests for a calendar attribute are necessary for non-gregorian calendars
+;***********************************************************
+ time    = f-&gt;time                          ; time:units = &quot;hours since            1-1-1 00:00:0.0&quot;                               
+TIME    = cd_calendar(time, 0)             ; type float 
+year    = toint( TIME(:,0) )               ; toint strips meta data
+month   = toint( TIME(:,1) )
+day     = toint( TIME(:,2) ) 
+                                                             ; check for        calendar attribute
+ if (isatt(TIME,&quot;calendar&quot;)) then           ; default is gregorian
+   year@calendar = TIME@calendar         
+end if
+
+ddd     = day_of_year(year, month, day) 
+ if (isatt(year,&quot;calendar&quot;)) then           ; default is gregorian
+   ddd@calendar = year@calendar  
+end if
+
+yyyyddd = year*1000 + ddd                                    ; needed for input
+if (isatt(ddd,&quot;calendar&quot;)) then           ; default is gregorian
+   yyyyddd@calendar = ddd@calendar  
+end if
+
+;***********************************************************
+; Read data: short2flt                                     
+;*********************************************************** 
+hgt     =  short2flt( f-&gt;hgt(:,0,:,:) )    ; convert to float 
+printVarSummary( hgt ) 
+;***********************************************************
+; Compute daily climatology: raw daily means 
+;***********************************************************
+hClmDay    = clmDayTLL(hgt, yyyyddd)     ; daily climatology at each grid   point                                      
+printVarSummary(hClmDay)   
+</code></pre>
+<p><font style=background:red><center>2</font></center><br>
+<font color=Blue><strong>calcDayAnomTLL</strong></font>:<br>
+💫具体见ncl官网例子：<a href="https://www.ncl.ucar.edu/Document/Functions/Contributed/calcDayAnomTLL.shtml">calcDayAnomTLL</a><br>
+<em>Calculates daily anomalies from a daily data climatology.</em><br>
+Compute daily anomalies using a climatology created by clmDayTLL or smthClmDayTLL. The input is daily 500 hPa heights spanning 1990-1999. The values are packed as type short and the time is in units &quot;hours since 1-1-1 00:00:0&quot;.</p>
+<pre><code>load &quot;$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl&quot; 
+diri    = &quot;./&quot;                             ; input directory   
+fili    = &quot;HGT.nc&quot;                         ; input file       
+f       = addfile (diri+fili , &quot;r&quot;)                          
+;***********************************************************
+; Read time and create required yyyyddd                    
+;***********************************************************
+time    = f-&gt;time                          ; time:units = &quot;hours since 1-1-1 00:00:0.0&quot;                               
+TIME    = cd_calendar(time, 0)          ; type float 
+year    = toint( TIME(:,0) )
+month   = toint( TIME(:,1) )
+day     = toint( TIME(:,2) ) 
+ddd     = day_of_year(year, month, day) 
+yyyyddd = year*1000 + ddd                                  ; needed for input
+;***********************************************************
+; Read data: short2flt                                     
+;*********************************************************** 
+hgt     = short2flt( f-&gt;hgt(:,0,:,:) )    ; convert to float 
+printVarSummary( hgt ) 
+;***********************************************************
+; Compute daily climatology: raw and then 'smoothed'  
+;***********************************************************
+hClmDay    = clmDayTLL(hgt, yyyyddd)     ; daily climatology at each grid point                                      
+printVarSummary(hClmDay)                                                                                              
+;***********************************************************
+;Compute smoothed daily climatology using 2 harmonics
+;***********************************************************
+hClmDay_sm = smthClmDayTLL(hClmDay, 2)
+printVarSummary(hClmDay_sm)
+
+;***********************************************************
+; Compute daily anomalies using raw and smoothed daily climatologies
+;***********************************************************
+hAnom      = calcDayAnomTLL (hgt, yyyyddd, hClmDay)     
+printVarSummary(hAnom_sm)
+printMinMax(hAnom, 0)
+
+hAnom_sm   = calcDayAnomTLL (hgt, yyyyddd, hClmDay_sm)     
+
+hAnom_sm@long_name = &quot;Anomalies from Smooth Daily Climatology&quot;
+printVarSummary(hAnom_sm)
+printMinMax(hAnom_sm, 0)
+</code></pre>
+<h2 id="去趋势">去趋势</h2>
+<p>去趋势是为了消除数据中的线性趋势或高阶趋势，去趋势后的时间序列反应的是气候内部变率。如果不去趋势，可能会得到一个“虚假的”全球变暖的模态，因此在分析前应去趋势，即去掉全球变暖的信号。去趋势和标准化是两个概念，如果要标准化序列是需要再进行标准化的。</p>
+<p>可以利用cdo处理，</p>
+<pre><code>detrend ifile ofile
+</code></pre>
+<p><font color=Blue><strong>dtrend_msg_n</strong></font><br>
+💫具体见ncl官网例子：<a href="https://www.ncl.ucar.edu/Document/Functions/Built-in/dtrend_msg_n.shtml">calcDayAnomTLL</a><br>
+ncl中去趋势去掉的是线性趋势。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AF%B9%E4%BA%8E%E6%B0%94%E8%B1%A1%E8%B5%84%E6%96%99%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%A4%84%E7%90%86">对于气象资料的基本处理：</a></li>
+<li><a href="#%E5%8E%BB%E8%B6%8B%E5%8A%BF">去趋势</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/ncl-qi-yi-zhi-fen-jie/">
+              <h3 class="post-title">
+                NCL奇异值分解
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

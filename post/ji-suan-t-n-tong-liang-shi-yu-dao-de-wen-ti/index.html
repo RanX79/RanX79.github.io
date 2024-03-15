@@ -1,0 +1,242 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>计算T-N通量时遇到的问题！ | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="计算T-N通量时遇到的问题！ | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+根据计算公式，首先计算流函数，注意流函数计算时是相对于气候场的扰动，气候场根据研究需要定义，我选用多年平均对应的月。
+注意波通量的一个假设就是地转近似，所以T-N通量适用于中高纬地区，在低纬就不成立。低纬度时f很小，在计算流函数时（str..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              计算T-N通量时遇到的问题！
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-09-27
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><img src="https://RanX79.github.io//post-images/1664245043601.png" alt="" loading="lazy"><br>
+根据计算公式，首先计算流函数，注意流函数计算时是相对于气候场的扰动，气候场根据研究需要定义，我选用多年平均对应的月。</p>
+<p>注意波通量的一个假设就是地转近似，所以T-N通量适用于中高纬地区，在低纬就不成立。低纬度时f很小，在计算流函数时（streamf = z<em>ga/f），一般会将10°S-10°N的f值设为缺测，使得结果更合理。在TN通量严格的定义中，流函数是地转流函数，所以要用重力位势（位势高度</em>g）来算。中高纬用风场来算的和用重力位势来算的差不多，但在低纬就会有明显差别。</p>
+<p>1、服务器中逐月数据v缺少1964年的6、7、8、9四个月，下次使用该数据时注意选取的时间范围。现在处理将时间范围更换至1970-2020年。因此在计算中要特别注意数据的信息，查阅数据信息可以使用：</p>
+<pre><code>ncdump -c 数据文件
+cdo sinfo 数据文件
+</code></pre>
+<p>同时注意ERA数据位势高度场单位为m2/s2，注意是乘了g的，是重力位势，但是ncep的数据中是重力位势高度，没有乘g，单位为m。而在计算扰动流函数的时候使用的是z*ga， ga=9.80665。在研究中要特别注意数据的格式。</p>
+<p>2、计算中忽略了风场小于5m/s的值，但是在高层风场很小时就没有通量，这种情况怎么处理？将风速范围调整至大于0m/s西方带中。风速的具体设置根据具体研究。</p>
+<pre><code>; missing for 10S - 10N
+do ilat = 0, nlat-1
+    if (abs(lat(ilat) ).lt. 10. ) then
+        f(ilat)= f@_FillValue
+    end if
+end do
+</code></pre>
+<p>3、计算的Fz通量的量级是否和xy方向的差1000倍？<br>
+Fz方向量级较小，在实际画垂直方向时需要放大100或1000倍。</p>
+<p>**; 实际应用中位势扰动场可以用位势扰动的合成场或回归场等代替，以计算合成场或回归场的WAF。 **</p>
+<p>4、使用的位势高度场数据是将原始的数据回归至EOF对应的PC1时间序列上，且计算流函数时没有使用UV风场，而是使用streamf = g*za/f，这两种计算有何不同？低纬度可能会有差异。</p>
+<p>5、画图时低层和高层差值较大，是否只画高层？ 一般选择画200 hPa以上平流层。如果是经纬度图，一般选择画200 hPa研究波列。</p>
+<p>6、数据分辨率过高可能导致许多错误的微小的信号，因此可以将分辨率降低，调整至2.5*2.5。数据分辨率调整可以使用CDO。</p>
+<p>7、与数据类型是否有关？double和float型。检验之后发现数据类型造成的差异较小。数据类型转换也可以使用cdo。</p>
+<p>8、画垂直剖面可能会受到平均流的影响造成结果异常。</p>
+<p><strong>具体量的计算：</strong></p>
+<p>地球自转角速度：</p>
+<pre><code>omega=2.*pi/(60.*60.*24.)
+</code></pre>
+<p>; Coriolis parameter<br>
+; f0为科氏参数，公式为f0=2Ωsinφ</p>
+<pre><code>f =  2.*2.*pi/(60.*60.*24.)*sin(pi/180. * lat(:))
+</code></pre>
+<p>位温：<br>
+<img src="https://RanX79.github.io//post-images/1666490576048.jpg" alt="" loading="lazy"></p>
+<pre><code>theta=ctvar*(1000./leveltmp)^0.286
+</code></pre>
+<p>大气标高设置为8000m，气压标高公式：<br>
+<img src="https://RanX79.github.io//post-images/1666490515973.jpg" alt="" loading="lazy"></p>
+<pre><code>z=-sclhgt*log(level/1000)
+</code></pre>
+<p>dthetadz是位温对高度的差分，高度可以根据气压推算，也是近似值；gc为气体常数</p>
+<pre><code>dthetadz = center_finite_diff_n(theta,z,False,0,0)
+dthetadz=center_finite_diff_n(ctvar*(1000./leveltmp)^0.286,-sclhgt*log(level/1000),False,0,0)
+</code></pre>
+<p>浮力频率：<br>
+; Brunt Vaisala frequency<br>
+<img src="https://RanX79.github.io//post-images/1666490384778.jpg" alt="" loading="lazy"></p>
+<pre><code>NN = (gc*(leveltmp/1000.)^0.286)/sclhgt * dthetadz
+</code></pre>
+<p><a href="https://www.bilibili.com/read/cv15633261">python计算代码</a></p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/bo-tong-liang/">
+              <h3 class="post-title">
+                波通量
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

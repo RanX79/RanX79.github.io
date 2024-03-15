@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://RanX79.github.io/</id>
+    <title>Ran Xue</title>
+    <updated>2024-03-15T06:47:56.777Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://RanX79.github.io/"/>
+    <link rel="self" href="https://RanX79.github.io/atom.xml"/>
+    <subtitle>是冉冉升起的冉</subtitle>
+    <logo>https://RanX79.github.io/images/avatar.png</logo>
+    <icon>https://RanX79.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2024, Ran Xue</rights>
+    <entry>
+        <title type="html"><![CDATA[ncl画斜剖面]]></title>
+        <id>https://RanX79.github.io/post/ncl-hua-xie-pou-mian/</id>
+        <link href="https://RanX79.github.io/post/ncl-hua-xie-pou-mian/">
+        </link>
+        <updated>2024-03-15T06:23:54.000Z</updated>
+        <content type="html"><![CDATA[<p>趁着今天顺利挂上了github，赶紧同步一下！</p>
+<p>主要参考ncl官网中的例子：<a href="https://www.ncl.ucar.edu/Applications/height_lat.shtml">narr_5.ncl</a>，但该例子多了对曲面网格数据的处理,首先利用了ESMF_regrid_with_weights进行网格化生成直线网格，如果用再分析资料个人觉得可以不用这一步。</p>
+<p>主要分为两步，首先是大圆路径，主要使用ncl中gc_latlon这个函数，该函数中设置变量时有一个常数npts，为x轴的点数，根据需要设置，一般设置越大数据越密。接下来进行插值，使用双线性插值从直线网格插值到非结构化网格，使用linint2_points_Wrap这个函数。</p>
+<p>在实际画图中，遇到的问题是最后画图设置的经纬度，因为地球是球面，所以经纬度不是均匀的，设置时需要画gc_latlon 函数对应的经纬度。在选择的经度范围跨越半球时，两点之间的方向不可控制，这是因为gc_latlon这个函数的问题，试了多次也没解决，只能选择不跨越半球了。<br>
+If the two specified points are exactly opposite one another on the globe, the code does not fail, but the direction of the great circle route will be somewhat unpredictable. Setting npts &lt;= 2 has the effect of just calculating the great circle distance between the two input points. No lat/lon points will be interpolated in between.<br>
+最后出现的警告，猜测是由于网格的不均匀分布造成的，但对画图的结果好像没有影响。<br>
+warning:ScalarFieldSetValues: irregular coordinate array sfXArray non-monotonic: defaulting sfXArray<br>
+更新一下，最后出现的警告是因为我！写代码的时候忘记删掉cyclic=&quot;True&quot;这一行设置了！所以坐标就会出现警告！（问题不大</p>
+<pre><code>;=================================================================
+
+;----------------斜刨面
+
+;  calculate great circle along transect
+
+npts=600 ;The actual number of interpolated points is npts-2.
+
+N1=npts-1
+
+nLabels      = 5   ;x轴坐标想要的标签数目
+
+fiCyclicX    =True ;注意数据是否循环
+
+;选取的两个点
+
+leftlat  =  45
+
+rightlat =  80
+
+leftlon  =  300
+
+rightlon =  357.5
+
+;attention:数据是从0-360 or -180-180
+
+;lonFlip 可以使用该函数转换
+
+dist = gc_latlon(leftlat,leftlon, rightlat,rightlon, npts,2) ;大圆路径
+
+;插值 变量为Fx_pos_10_area
+
+xlon=Fx_pos_10_area&amp;lon
+
+xlat=Fx_pos_10_area&amp;lat
+
+Fx_pos_10_cross = linint2_points_Wrap(xlon,xlat,Fx_pos_10_area,fiCyclicX,dist@gclon,dist@gclat,2)
+
+;插值后赋予变量属性
+
+Fx_pos_10_cross!0      = &quot;time&quot;
+
+Fx_pos_10_cross!1      = &quot;level&quot;
+
+Fx_pos_10_cross&amp;level= Fx_pos_10_area&amp;level
+
+;-----对应的经纬度
+
+latXsecUser  = dist@gclat      ; convenience
+
+lonXsecUser  = dist@gclon
+
+print (dist@gclat+&quot;  &quot;+dist@gclon )  ; print the lats/lons
+
+;--------画图时x轴坐标设置
+
+;数据从0-360
+
+XBValues_pos    = toint( fspan(0,N1,nLabels) )
+
+XBLabels_pos    = new(nLabels,&quot;string&quot;)
+
+do i=0,nLabels-1
+
+x = lonXsecUser(XBValues_pos(i))
+
+y = latXsecUser(XBValues_pos(i))
+
+if(x.lt.180)then
+XBLabels_pos(i) = sprintf(&quot;%3.1f&quot;, y)+&quot;N&quot;+&quot;~C~&quot;+sprintf(&quot;%3.1f&quot;, x)+&quot;E&quot;
+
+else if(x.gt.180.and.x.le.360)then
+
+x1=360-x
+
+XBLabels_pos(i) = sprintf(&quot;%3.1f&quot;, y)+&quot;N&quot;+&quot;~C~&quot;+sprintf(&quot;%3.1f&quot;,x1)+&quot;W&quot;
+
+else if(x.eq.180.or.x.eq.360)then
+
+XBLabels_pos(i) = sprintf(&quot;%5.1f&quot;, y)+&quot;N&quot;+&quot;~C~&quot;+sprintf(&quot;%5.1f&quot;, x)
+end if
+
+end if
+
+end if
+
+end do
+
+res@tmXBMode   = &quot;Explicit&quot;
+
+res@tmXBValues = XBValues_pos
+
+res@tmXBLabels = XBLabels_pos
+</code></pre>
+<p>图片类似这样吧！<br>
+<img src="https://RanX79.github.io//post-images/1710485272971.png" alt="" loading="lazy"></p>
+<p>ps：最近读文献才发现，看你研究方向热不热门，就看看高质量期刊新出的文章跟你的方向差不多的多不多；然后发现我的方向真！离大谱！（不是 我爱科研</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[RWS波源]]></title>
+        <id>https://RanX79.github.io/post/rws-bo-yuan/</id>
+        <link href="https://RanX79.github.io/post/rws-bo-yuan/">
+        </link>
+        <updated>2024-03-15T06:02:56.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="rossby波">Rossby波</h1>
+<h2 id="rossby波也称为行星波自然存在于旋转流体中-在地球的海洋和大气层中这些波是地球自转的结果-什么是rossby波">Rossby波，也称为行星波，自然存在于旋转流体中。在地球的海洋和大气层中，这些波是地球自转的结果。<br>
+<a href="https://oceanservice.noaa.gov/facts/rossby-wave.html">什么是Rossby波</a></h2>
+<p>根据(Sardeshmukh and Hoskins 1988)的研究：</p>
+<figure data-type="image" tabindex="1"><img src="https://RanX79.github.io//post-images/1710482864783.png" alt="" loading="lazy"></figure>
+<p>文献中使用：<br>
+大气中的大尺度辐散风场主要与非绝热加热不均匀及大地形有关，异常涡度源基本上代表了定常的外部强迫源对大气定常行星波的强迫，对流层上层定常辐散场所产生的涡度源即为Rossby波，分析异常涡度源的分布可以了解大气定常行星波产生的源地和机制。(An et al. 2022)<br>
+<img src="https://RanX79.github.io//post-images/1710482895503.png" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1710482909138.png" alt="" loading="lazy"><br>
+在本节中，我们分析了由EOF表示的两种波列的可能动力学。图4a和4e显示了250 hPa ndj平均Rossby波源在PC1和PC2上的回归图，以及回归后的涡度异常。在图4b - 4d中，图4a所示的罗斯比波源被分解为三个贡献(方程4):异常辐散作用于气候绝对涡度(S1)的拉伸效应the stretching effect by anomalous divergence acting on the climatological absolute vorticity，异常辐散风对气候绝对涡度的平流作用(S2) advection of the climatological absolute vorticity by anomalous divergent wind，涡度异常与气候辐散风相关的项terms related to vorticity anomalies and the climatological divergent winds (S3 +S4)。</p>
+<p>如图4a所示，与EOF1相关的气旋(正)罗斯比波源的三个重要中心位于副热带东太平洋、加拿大东海岸和地中海，这些中心诱发其下游的气旋涡度异常(黑色实线)。<br>
+这些涡度源主要来自于异常辐合anomalous convergence (图4b中黑色虚线)对气候绝对涡度(图4c中红色等高线)的拉伸效应stretching effect (S1)，而异常辐合与异常向北辐散风anomalous northward divergent winds (图4c)有关。赤道东太平洋和墨西哥湾上空的异常向北辐散风可能是由El Niño和相关的太平洋/北美遥相关通过赤道东太平洋(Weng et al.， 2007)和美国东南部的过度降水造成的异常上升引起的(Leathers et al., 1991).。<br>
+这些异常的向极辐散风产生了异常辐合，在副热带东太平洋和加拿大西海岸上空成为罗斯比波源(图4c)。这进一步说明El Niño可能诱发pc1相关的波列。与气候态辐散风有关的S3和S4项对Rossby波强迫起次要作用(图4d)。相比之下，与EOF2相关的罗斯比波源在副热带东太平洋和加拿大东海岸上空较弱(图4e-4h)。<br>
+与EOF1或EOF2相关的波列在地中海附近伴随着明显的气旋性罗斯比波源(图4a和4b、4e和4f)，这是异常辐合的产物(图4c和4g)。此外，我们发现与EOF1相关的异常辐合位于强绝对涡度梯度区域之外(图4c)，而与eof2相关的异常辐合位于强绝对涡度梯度区域内(图4g)。因此，我们推测，在地中海附近分裂成两个分支的波列是否取决于这里的波源位置。<br>
+<img src="https://RanX79.github.io//post-images/1710482972828.png" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1710482990718.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1710483005037.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1710483019319.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1710483035658.png" alt="" loading="lazy"><br>
+正值代表正涡度源异常，且数值越大表明此异常环流的强迫源强度越大，波作用通量一般源自大的涡度源异常区</p>
+<p>辐散风辐合异常对应正涡度源，辐散风辐散异常对应负涡度源,辐散风异常造成涡度源异常(所以应该画散度么？)</p>
+<p>Wang, G., Hendon, H.H., Arblaster, J.M., Lim, E.-P., Abhik, S., Van Rensch, P., 2019. Compounding tropical and stratospheric forcing of the record low Antarctic sea-ice in 2016. Nature Communications 10.. https://doi.org/10.1038/s41467-018-07689-7<br>
+<img src="https://RanX79.github.io//post-images/1710483068673.png" alt="" loading="lazy"><br>
+An, Xiadong, Wen Chen, Shuo Fu, Peng Hu, Chun Li, and Lifang Sheng. 2022. “Possible Dynamic Mechanisms of High- and Low-Latitude Wave Trains Over Eurasia and Their Impacts on Air Pollution Over the North China Plain in Early Winter.” Journal of Geophysical Research: Atmospheres 127 (13): e2022JD036732. https://doi.org/10.1029/2022JD036732.<br>
+Sardeshmukh, Prashant D., and Brian J. Hoskins. 1988. “The Generation of Global Rotational Flow by Steady Idealized Tropical Divergence.” Journal of the Atmospheric Sciences 45 (7): 1228–51. https://doi.org/10.1175/1520-0469(1988)045&lt;1228:TGOGRF&gt;2.0.CO;2.</p>
+<pre><code>;============================================================
+; calculate RWS
+;============================================================
+;using method:load &quot;D:\Research\Code\def_RWS.ncl&quot;
+
+;维度为4维:time lev lat lon
+;输入u v异常和平均场
+;anomaly:u_pert v_pert
+;basic :u_bst    v_bst
+
+undef(&quot;RWS&quot;)
+function RWS(u_pert[*][*][*][*]:numeric,u_bst[*][*][*][*]:numeric,v_pert[*][*][*][*]:numeric,v_bst[*][*][*][*]:numeric)
+local dName,vrc_bst,vrc_pert,va_bst,va_pert,div_pert,win_pert,div_bst,win_pert,uad_pert,vad_bst,uad_bst,vad_bst,dvs_pert,dvs_nst,grdv_pert,gdvy_bst,gdvx_bst
+begin
+dName = getvardims(u_pert)
+if (any(ismissing(dName(1:)))) then
+print(&quot;fatal: def_RWS: requires that all the rightmost dimensions be named&quot;)
+exit
+end if
+; --------------------------------------------------------------
+; prepare for RWS calculation
+; --------------------------------------------------------------
+;  Coriolis parameter
+
+f = coriolis_param(u_pert&amp;lat)
+
+;-----------------------------------------------------
+;-----&gt;relative vorticity
+;(highly accurate spherical harmonics)
+;input values must be in ascending latitude order
+;This procedure does not handle missing values
+;(defined by the _FillValue attribute).
+vrc_bst = uv2vrF_Wrap(u_bst,v_bst)
+vrc_bst@long_name = &quot;relative vorticity&quot;
+vrc_bst@units = &quot;1/s&quot; 
+
+vrc_pert= uv2vrF_Wrap(u_pert,v_pert)
+vrc_pert@long_name = &quot;relative vorticity&quot;
+vrc_pert@units = &quot;1/s&quot; 
+;-----------------------------------------------------
+;-----&gt;absolute vorticity
+va_bst = vrc_bst + conform(vrc_bst, f, 2)
+va_pert = vrc_pert + conform(vrc_bst, f, 2)
+
+copy_VarCoords(u_pert, va_bst)
+copy_VarCoords(u_pert, va_pert)
+
+;-----------------------------------------------------
+;----&gt;calculate wind divergence
+div_pert = uv2dvF_Wrap(u_pert,v_pert) ;divergence
+win_pert = dv2uvF_Wrap(div_pert) ;Computes the divergent (irrotational) wind components
+
+div_bst = uv2dvF_Wrap(u_bst,v_bst)
+win_bst = dv2uvF_Wrap(div_bst)
+
+;The results are returned in an array dimensioned 2 x N x nlat x nlon,
+;where the 0-th point of the leftmost dimension contains the u component
+;and the 1-th point of the leftmost dimension contains the v component (both in ascending latitude order).
+
+
+
+uad_pert = win_pert(0,:,:,:,:) ;u分量
+vad_pert = win_pert(1,:,:,:,:) ;v分量
+
+uad_bst = win_bst(0,:,:,:,:)
+vad_bst = win_bst(1,:,:,:,:)
+
+;▽·辐散风
+dvs_pert = uv2dvF_Wrap(uad_pert,vad_pert)
+dvs_bst = uv2dvF_Wrap(uad_bst,vad_bst)
+;-----------------------------------------------------
+;-----&gt;Compute the meridional and zonal gradients
+;It contains two arrays.
+;Element [0] contains the meridional gradient
+;and element [1] contains the zonal gradient.
+;相对涡度和绝对涡度的梯度
+
+;▽ano relative vorticity
+grdv_pert = grad_latlon_cfd(vrc_pert, u_pert&amp;lat, u_pert&amp;lon, True, False)
+
+
+;▽basic relative vorticity
+gdvx_bst = grad_latlon_cfd(vrc_bst,vrc_bst&amp;lat,vrc_bst&amp;lon,True, False)
+;▽basic absolute vorticity
+gdvy_bst = grad_latlon_cfd(va_bst,va_bst&amp;lat,va_bst&amp;lon,True, False)
+
+
+rws = (-uad_bst *grdv_pert[1]-vad_bst *grdv_pert[0] -uad_pert*gdvx_bst[1] -vad_pert*gdvy_bst[0]-vrc_pert*dvs_bst-va_bst*dvs_pert )*1e11
+copy_VarCoords(u_pert, rws)
+rws@units=&quot;s~S~-2&quot;
+
+return(rws)
+end
+</code></pre>
+<p>GitHub经常挂不上！！！！烦死人了！有时候懒得同步就放到微信公众号上了：是冉冉升起的冉</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[文献调研经验分享]]></title>
+        <id>https://RanX79.github.io/post/wen-xian-diao-yan-jing-yan-fen-xiang/</id>
+        <link href="https://RanX79.github.io/post/wen-xian-diao-yan-jing-yan-fen-xiang/">
+        </link>
+        <updated>2023-05-26T01:33:27.000Z</updated>
+        <content type="html"><![CDATA[<p>刚读研的自己很需要这门课了，但是很可惜那个时候没有。这是我读研两年来自己摸索总结的一些经验，希望对看完的你有所帮助，不再走我走过的坑。</p>
+<p>主要包括如何检索文献以及如何管理文献。</p>
+<h2 id="检索文献">检索文献</h2>
+<p>首先是订阅对应的期刊或者关键词，我使用过四种方式，<strong>zotero</strong> 主要可以通过期刊的RSS号订阅，而<strong>文献鸟</strong>主要是是通过关键词，这两种方法用多了就很焦虑，因为打开就会发现有一堆文献没读，我主要是使用<strong>X-MOL</strong>这个网页，不仅可以通过关键词还能通过期刊或者作者，功能比较全，而<strong>ResearchGate</strong>适合打发时间的时候像刷朋友圈一样看看，但是登录网页经常登不上去，所以推荐大家用X-MOL。<br>
+<img src="https://RanX79.github.io//post-images/1685065468329.jpg" alt="" loading="lazy"><br>
+然后就是最常用的两个软件，endnotes和zotero，<strong>这两个我个人使用感觉zotero更加适合我</strong>，主要是有中文版，以及各种功能的插件很多。个人也更推荐zotero。<br>
+<img src="https://RanX79.github.io//post-images/1685065514259.jpg" alt="" loading="lazy"><br>
+然后检索文献除最常用的<strong>必应，web of science还有sci-hub以及Google学术</strong>这些，我主要使用谷歌学术进行关键词搜索文献，X-MOL我觉得优点是可以直接看到关键的图片以及登录之后可以看见这篇文献你是否已经读过，这几个网站我都经常用，然后就是最常用的<strong>web of science</strong>，我一般用这个缩小搜索范围以及查看文献的pdf。当查到一篇文献之后，最后我会看看参考文献或者是被引用或者使用connected papers这个网站查一查相关文献。<br>
+<img src="https://RanX79.github.io//post-images/1685065563317.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1685065594371.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1685065623379.jpg" alt="" loading="lazy"></p>
+<h2 id="管理文献">管理文献</h2>
+<p>第二部分就是文献管理，我目前主要用的是<strong>zotero</strong>进行分类管理，然后向大家推荐他的这个插件<strong>better notes</strong>我觉得非常不错，能够边阅读PDF边记录笔记，以及分类管理自动生成文章的脉络图，以及快速定位。目前使用我觉得很不错，并且同步到学校的OneDrive后可以实现多台电脑同步或者iPad也可以阅读。最后就是非常简单的<strong>excel</strong>，在阅读完一篇文献之后，我会再进行最简单的分类方便查找。<br>
+<img src="https://RanX79.github.io//post-images/1685065665705.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1685065703050.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1685065730604.jpg" alt="" loading="lazy"></p>
+<h2 id="一些链接">一些链接</h2>
+<p><a href="https://kopernio.com/install-manually">EndNote 安装</a><br>
+<a href="https://www.zotero.org/download/">Zotero 安装</a><br>
+<a href="https://tool.yovisun.com/scihub/">Sci-hub</a><br>
+<a href="https://xs.scqylaw.com/">Google学术</a><br>
+<a href="https://www.x-mol.com/">X-mol学术平台</a><br>
+<a href="https://www.connectedpapers.com/">Connected papers</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[位涡-Potential vorticity]]></title>
+        <id>https://RanX79.github.io/post/wei-wo/</id>
+        <link href="https://RanX79.github.io/post/wei-wo/">
+        </link>
+        <updated>2023-04-01T07:00:47.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="potential-vorticity-pv">Potential vorticity (PV):</h2>
+<p>✍位涡即位势涡度的简称，由Rossby于1930s年代提出，即位涡的垂直分量与气柱高度h之比为一常数；表明位涡是一个既与大气的涡度(旋转性)有关，又与大气的位势(厚度或高度)有关的物理量。<br>
+<img src="https://RanX79.github.io//post-images/1680416093574.jpg" alt="" loading="lazy"></p>
+<hr>
+<p>位涡对于理解平衡流以及一系列基本的动力过程都很重要，例如Rossby波的传播与破碎及其对大气的影响、全球尺度的遥相关、急流self-sharpening等的反摩擦现象、气旋反气旋和风暴路径的生成、风的形成等等。<br>
+Potential vorticity (PV) is the atmosphere's best equivalent to a dye in water, and therefore can be used to analyse and track shortwaves aloft (and the frontal disturbances associated with it). It can also be used to explain how a range of mountains like the Andes makes the upper westerly winds swerve towards the equator and back. PV is symbolised by η and is defined thus</p>
+<figure data-type="image" tabindex="1"><img src="https://RanX79.github.io//post-images/1680416341030.jpg" alt="" loading="lazy"></figure>
+<p>where Dθ is the depth of the layer we are considering, reckoned as being bounded top and bottom by two isentropic levels.</p>
+<hr>
+<p>位涡为一个标量，是一个综合表征大气运动状态和热力状态的物理量，它的重要性在于绝热无摩擦运动中微团的位涡守恒。位涡守恒状况下,当空气团被压缩时,其绝对涡度减小;当空气团被拉伸时,其绝对涡度增大.可用这个解释山地背风波现象.同样,当辐散导致空气微团水平膨胀时,绝对位涡减弱.</p>
+<hr>
+<p>单位：PVU<br>
+1 PVU =10-6 m-2 s-1<em>K</em>kg-1</p>
+<hr>
+<p><img src="https://RanX79.github.io//post-images/1680748885075.png" alt="" loading="lazy"><br>
+位温垂直分布的基本特征是随高度增大，特别是平流层 ，因为温度垂直递减率很小 ，故位温的垂直梯度非常大。<br>
+<strong>位涡的垂直分布特征主要取决于位温的垂直分布</strong><br>
+位温：<br>
+<img src="https://RanX79.github.io//post-images/1680759204507.png" alt="" loading="lazy"><br>
+PV的分布仅由风场和温度场决定。<br>
+位涡的一般分布：<br>
+位涡的分布一般呈现由低纬向高纬（因为f）和由低层向高层增大的现象。<br>
+对流层：位涡一般小于1.5 PVU<br>
+在对流层低层赤道附近位涡近于0 PVU，中纬地区约0.3 PVU,<br>
+在对流层高层中纬度地区位涡典型值为1.0 PVU。<br>
+对流层顶附近位涡突然增大至4 PVU<br>
+平流层中位涡随高度迅速增大, 通常称为“高位涡库”。平流层的位涡比对流层的位涡大很多（due to the great static stability of the stratosphere）;<br>
+PV=2 PVU的等值线通常代表来自低纬地区对流层的低位涡大气与来自高纬地区对流层高层及平流层的高位涡大气之间的边界。<br>
+在副热带急流以北地区，PV=2 PVU的等位涡面接近于实际大气的对流层顶, 一般称之为“动力对流层顶”。<br>
+<img src="https://RanX79.github.io//post-images/1680416481498.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1680416535949.jpg" alt="" loading="lazy"></p>
+<p>下图为2001年Conaty等给出的1993-1994年冬季3月的纬向平均的位温经向垂直剖面图，可见，位温的垂直分布随高度增大(特别是平流层)，因为温度垂直递减率很小，故位温的垂直梯度非常大，由于位涡和位温垂直梯度成正比，因此平流层的位涡比对流层大一个数量级。<br>
+<img src="https://RanX79.github.io//post-images/1680748975491.png" alt="" loading="lazy"></p>
+<p>对流层低层的高位涡是潜热反馈的结果。<br>
+在850或700 hPa低层有时也会出现 范围略高于1.5或2.5 PVU的高位涡现象，如在爆发性气旋中低空有高位涡与高空的高位涡在垂直方向想的”锁相“现象(如下图)。此时低空高位涡的出现是由于气旋强烈发展导致低空相对涡度急剧增大的结果。数值模拟研究结果表明 ，气旋强烈发展过程中，位涡在高低空是同时加强 的 ，只是在气旋发展到锢囚阶段时在垂直方向上趋于重合 ，而不是高空的高位涡侵人低空。<br>
+<img src="https://RanX79.github.io//post-images/1680749838345.png" alt="" loading="lazy"></p>
+<h2 id="ertel位涡">Ertel位涡：</h2>
+<p>与Rossby同一时期，Ertel也提出了一个位涡的表达式：<br>
+<img src="https://RanX79.github.io//post-images/1680416590232.jpg" alt="" loading="lazy"></p>
+<p>其中θ为位温，α(=ρ-1)为比容，ζa为绝对涡度矢量，q称为Ertel位涡，或称为广义位涡。Rossby提出的位涡只是Ertel位涡的一个特例。</p>
+<figure data-type="image" tabindex="2"><img src="https://RanX79.github.io//post-images/1680416610903.jpg" alt="" loading="lazy"></figure>
+<h2 id="等熵位涡分析法">等熵位涡分析法:</h2>
+<p>在等位温面(即等熵面)上分析等位涡线, 等熵面一般取为与极锋地区的对流层顶相重合的等位温面，在天气分析中，等熵面分析就是指等位温面分析，因为在绝热和理想气体条件下熵和位温的对数是线性正比关系，具有一样的守恒性。在北半球冬季一般取θ=315K，夏季一般取θ=325 K的等位温面。由于如上所说, 位涡具有守恒性，即在绝热、无摩擦条件下，运动大气的位涡保持不变。因此它是一个很好的示踪器。可以通过追踪位涡异常区(即位涡高值或低值区)来追踪大气扰动的演变情况。图 3给出了一个例子，它显示了1982年9月20—25日在300 K等熵面图上，40°N至北极、120°W~0°，以60°W为中心经度的区域内等熵位涡高值区从西北向东南伸展并断裂的过程。通过IPV高值区的演变图的分析，我们可以很清楚地看到一个具有高IPV值的空气团的时空变化过程。<br>
+<img src="https://RanX79.github.io//post-images/1680416646113.jpg" alt="" loading="lazy"></p>
+<p>等熵位涡图主要反映极地气团的活动，同时也是与极地气团密切关联的锋 、急流 、对流层顶的综合反映。</p>
+<h2 id="平流层干侵入">平流层干侵入</h2>
+<p>“干侵入”指平流层的干空气侵入到对流层，空气从平流层至对流层，故称“侵入”，平流层水汽稀少，几乎可以忽略，故称为“干侵入”。</p>
+<p>所谓平流层位涡源，实际上是平流层温度随高度变化很小的反映，它与平流层中涡度的大小没有多大关系。<br>
+如果以位涡等值线作为对流层和平流层的分界，在锋区附近1.5 PVU等值线表现为向下延伸的漏斗状，即所 谓“高 位 涡 异 常 ”。从位涡表达式可知，它不过是与锋区逆温的反映。</p>
+<p>沿锋区向下延伸的高位涡实际是锋区结构的反映，不应直观地简单推断为是平流层高位涡向对流层侵入的结 果 。</p>
+<figure data-type="image" tabindex="3"><img src="https://RanX79.github.io//post-images/1680767573248.png" alt="" loading="lazy"></figure>
+<h2 id="参考资料">参考资料：</h2>
+<p><a href="http://qxqk.nmc.cn/html/2010/3/20100302.html">陶祖钰,郑永光.位温、等熵位涡与锋和对流层顶的分析方法[J].气象,2012,38(01):17-27.</a></p>
+<p><a href="https://kns.cnki.net/kcms2/article/abstract?v=3uoqIhG8C44YLTlOAiTRKgchrJ08w1e7fm4X_1ttJAksKuyOAUg1k6zMWB11cE1FvqzcywzMTccWqdUiqD4T7Robsiz9q0-X&amp;uniplatform=NZKPT">陶祖钰,周小刚,郑永光.从涡度、位涡、到平流层干侵入——位涡问题的缘起、应用及其歧途[J].气象,2012.38(01):28-40.</a></p>
+<p><a href="https://kns.cnki.net/kcms2/article/abstract?v=3uoqIhG8C44YLTlOAiTRKgchrJ08w1e7fm4X_1ttJAksKuyOAUg1k6zMWB11cE1F1LCGBu8il1rv7JiiGgSZVYwlv02NimYu&amp;uniplatform=NZKPT">陶祖钰,郑永光.位温、等熵位涡与锋和对流层顶的分析方法[J].气象,2012,38(01):17-27.</a></p>
+<p><a href="https://renqlsysu.github.io/2021/11/11/PV/">Potential Vorticity</a><br>
+<a href="http://www-das.uwyo.edu/~geerts/cwx/notes/chap12/pot_vort.html">Potential vorticity and isentropic charts</a></p>
+<p>大气科学(第二版)</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ncl加方框]]></title>
+        <id>https://RanX79.github.io/post/ncl-jia-fang-kuang/</id>
+        <link href="https://RanX79.github.io/post/ncl-jia-fang-kuang/">
+        </link>
+        <updated>2022-11-09T08:49:00.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="ncl给图片的某一区域添加方框">ncl给图片的某一区域添加方框</h2>
+<pre><code>gres                 = True
+gres@gsLineThicknessF = 2.5 
+gres@gsLineColor       = &quot;black&quot;
+;gres@gsFillOpacityF=0.1
+; gres@tfPolyDrawOrder = &quot;Draw&quot;  ; this can be used for polylines, polymarkers, or polygons
+;SATE 40°N~75°N, 60°E~150°E
+lat1 = (/75,  75, 40, 40, 75/)
+lon1 = (/150, 60, 60, 150,150/)
+;SATw  40°N~75°N, 30°W~120°W
+lat2 = (/75,  75, 40, 40, 75/)
+lon2 = (/-120, -30, -30, -120,-120/)
+
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;red&quot;
+dum(0) = gsn_add_polyline(wks,plot(0),lon1,lat1,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;blue&quot;
+dum(1) = gsn_add_polyline(wks,plot(0),lon2,lat2,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;red&quot;
+dum(2) = gsn_add_polyline(wks,plot(1),lon1,lat1,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;blue&quot;
+dum(3) = gsn_add_polyline(wks,plot(1),lon2,lat2,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;red&quot;
+dum(4) = gsn_add_polyline(wks,plot(2),lon1,lat1,gres)
+delete(gres@gsLineColor  )
+gres@gsLineColor       = &quot;blue&quot;
+dum(5) = gsn_add_polyline(wks,plot(2),lon2,lat2,gres)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Linux常用命令]]></title>
+        <id>https://RanX79.github.io/post/linux-chang-yong-ming-ling/</id>
+        <link href="https://RanX79.github.io/post/linux-chang-yong-ming-ling/">
+        </link>
+        <updated>2022-11-08T02:07:49.000Z</updated>
+        <content type="html"><![CDATA[<p><img src="https://RanX79.github.io//post-images/1667873283802.jpg" alt="" loading="lazy"><br>
+<a href="https://blog.csdn.net/chenfang0529/article/details/108752461">参考链接1</a><br>
+<a href="https://blog.csdn.net/l18848956739/article/details/93859531?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160084439419726892409941%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=160084439419726892409941&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-93859531.first_rank_ecpm_v3_pc_rank_v2&amp;utm_term=linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4&amp;spm=1018.2118.3001.4187">参考链接2</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[低频波 高频波 瞬变波 定常波]]></title>
+        <id>https://RanX79.github.io/post/di-pin-bo-gao-pin-bo-shun-bian-bo-ding-chang-bo/</id>
+        <link href="https://RanX79.github.io/post/di-pin-bo-gao-pin-bo-shun-bian-bo-ding-chang-bo/">
+        </link>
+        <updated>2022-11-07T03:31:02.000Z</updated>
+        <content type="html"><![CDATA[<p>波动是大气扰动特征的表现，常定义为对时间平均场和纬向平均场的偏差，是中纬度大气运动最明显的特征之一，是维持动量、热量和水汽的全球输送以及中高纬大气气候态的重要过程。波动按照时间尺度常分为高频波动和低频波动。<br>
+高频波动常指生命周期在2-10天的天气尺度瞬变变，对应温带气旋、反气旋和锋面系统等天气现象，其动力学本质是指由斜压不稳定产生的斜压波。<br>
+低频波动指时间尺度在10-90天的波动，主要指时间尺度长，移动缓慢的行星波动。</p>
+<p>高低频波动在波动的纬向传播中是反向的。高频波动使得急流加速，即造成急流的纬向不对称性，低频波动的作用是消除这种不对称性，使得急流趋于纬向均匀。</p>
+<p><em>戴祥霖. 冬季北半球低频扰动能量的特征、形成机制及模拟研究[D].南京大学,2020.DOI:10.27235/d.cnki.gnjiu.2020.002114.</em></p>
+<hr>
+<p><font color=red><strong>定常波</strong></font>：又称定常涡旋、 定常涡动, 通常是指物理量的纬向不对称部分。大气中的定常波对大气环流的维持和变化都有重要作用。<br>
+把纬向平均环流偏差的时间平均定义为定常波。它表示时间平均图上的纬向偏差值，又称定常涡旋项，主要反映大气活动中心、高空平均槽脊以及季风等特征。其三维结构主要用半球时间平均场的纬向不对称分布和经度——高度剖面图表征。</p>
+<p>定常波垂直结构。在较高纬度上位势高度场随高度向西倾斜，而且定常波倾斜向上伸展到平流层下部，这种西倾反映了定常波的热量通量在各层上都是指向极地的。高度场中定常波振幅随高度明显增加直到对流层顶，这表明定常波的垂直结构中有一个相当正压分量（即随高度没有位相倾斜）。<br>
+<img src="https://RanX79.github.io//post-images/1668393040037.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1668393215203.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1668393277768.jpg" alt="" loading="lazy"></p>
+<p><a href="https://kns.cnki.net/KXReader/Detail?invoice=eS%2FcXoT1GLfp04EJfwguppbWu70xmYxaqQunNCQhW7mlNUqD3qitu1LEf7RTLW8ocAHnJMMvrLbVKWDbt%2BdkcMAo4UMbshBex%2BIIDRcsF1dEtO1A6RnjtzpUkKefWvQfs4hCu6Td4PkLWhdjEdxJq7XTopR6CsITmLw8TnGEops%3D&amp;DBCODE=CJFD&amp;FileName=DQXK200703000&amp;TABLEName=cjfd2007&amp;nonce=C008C86850F3401A865D1338620B5769&amp;uid=&amp;TIMESTAMP=1668391998181">王林,陈文,黄荣辉,黄刚.北半球定常波输送西风动量的气候态及其年变化[J].大气科学,2007(03):377-388.</a></p>
+<hr>
+<p><font color=red><strong>瞬变波</strong></font>：相对于时间平均气流而变化及移动的大气扰动。通常把瞬变波动粗略的分为高频（一周以内）和低频（10天以上）两部分。<br>
+<img src="https://RanX79.github.io//post-images/1667800780098.jpg" alt="" loading="lazy"></p>
+<hr>
+<p><img src="https://RanX79.github.io//post-images/1667976554682.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1667982914651.jpg" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1667979659985.jpg" alt="" loading="lazy"></p>
+<p><a href="https://journals.ametsoc.org/view/journals/atsc/42/3/1520-0469_1985_042_0217_ottdpo_2_0_co_2.xml">Plumb波活动通量</a><br>
+Plumb, R.A., 1985. On the Three-Dimensional Propagation of Stationary Waves. Journal of the Atmospheric Sciences 42, 217–229.. doi:10.1175/1520-0469(1985)042&lt;0217:ottdpo&gt;2.0.co;2<br>
+<img src="https://RanX79.github.io//post-images/1667792397930.jpg" alt="" loading="lazy"></p>
+<p><a href="https://journals.ametsoc.org/view/journals/atsc/58/6/1520-0469_2001_058_0608_afoapi_2.0.co_2.xml">T-N通量</a><br>
+Takaya, K., Nakamura, H., 2001. A Formulation of a Phase-Independent Wave-Activity Flux for Stationary and Migratory Quasigeostrophic Eddies on a Zonally Varying Basic Flow. Journal of the Atmospheric Sciences 58, 608–627.. doi:10.1175/1520-0469(2001)058&lt;0608:afoapi&gt;2.0.co;2<br>
+由Takaya和Nakamura（2001;以下简称TN01）推导出的WAF可以明确地描绘瞬态涡流在纬向变化的基本流中的传播，其方向与罗斯比波的局部三维群速度平行。WAF的发散和收敛也暗示了波包的源和汇。</p>
+<p>Plumb85的文章是基于纬向平均的异常位势高度计算的，另外还用纬向平均的温度来计算位温。<br>
+TN01基于气候态平均的异常位势高度计算，另外还用到daily（or monthly） T, U, V</p>
+<p>参考文献：</p>
+<p>韦晋,朱伟军.天气尺度瞬变波滤波方案比较分析[J].南京气象学院学报,2006(04):549-554.DOI:10.13878/j.cnki.dqkxxb.2006.04.017.</p>
+<p><a href="https://renqlsysu.github.io/2020/02/16/wave_activity_flux/">参考链接</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[E矢量]]></title>
+        <id>https://RanX79.github.io/post/e-shi-liang/</id>
+        <link href="https://RanX79.github.io/post/e-shi-liang/">
+        </link>
+        <updated>2022-10-24T11:06:23.000Z</updated>
+        <content type="html"><![CDATA[<p>defined by <a href="https://click.endnote.com/viewer?doi=10.1175%2F1520-0469%281983%29040%3C1595%3Atspamf%3E2.0.co%3B2&amp;token=WzM1MjAyNTksIjEwLjExNzUvMTUyMC0wNDY5KDE5ODMpMDQwPDE1OTU6dHNwYW1mPjIuMC5jbzsyIl0.haIjsT6mexmvZvo8rgSQw9DHQHM">Hoskins et al,1983</a>,<br>
+The Shape, propagation and mean-flow interaction of large-scale weather systems<br>
+In pressure coordinates:<br>
+<img src="https://RanX79.github.io//post-images/1666693960533.png" alt="" loading="lazy"><br>
+在三维准地转近似条件下，是EP通量的近似扩展，发现该公式对于纬向平均时，最后两个分量与Eliassen-Palm通量的分量相同。<br>
+The E vector can be referred to as an extended Eliassen-Palm flux, whose convergence (divergence) suggests a possible increase (decrease) of wave activity density. The direction of E vector approximately indicates the group velocity (velocity of energy propagation) of Rossby waves relative to the mean flow. It is also an effective tool diagnosing the eddy feedback onto the mean flow. The westerly wind slows down when E vectors converge. The westerly wind slows down when E vectors converge.<br>
+<img src="https://RanX79.github.io//post-images/1666694577568.png" alt="" loading="lazy"><br>
+<img src="https://RanX79.github.io//post-images/1666694655429.png" alt="" loading="lazy"><br>
+从北半球250 hPa的低频以及高频瞬变涡旋的结果看，低频涡旋的E矢量居然向西传。</p>
+<p><a href="https://renqlsysu.github.io/2020/02/16/wave_activity_flux/">参考链接</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[不同的时间尺度]]></title>
+        <id>https://RanX79.github.io/post/bu-tong-de-shi-jian-chi-du/</id>
+        <link href="https://RanX79.github.io/post/bu-tong-de-shi-jian-chi-du/">
+        </link>
+        <updated>2022-10-06T06:44:48.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://RanX79.github.io//post-images/1665038991968.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一些定义的指标]]></title>
+        <id>https://RanX79.github.io/post/yi-xie-ding-yi-de-zhi-biao/</id>
+        <link href="https://RanX79.github.io/post/yi-xie-ding-yi-de-zhi-biao/">
+        </link>
+        <updated>2022-10-05T02:12:52.000Z</updated>
+        <content type="html"><![CDATA[<p>PDO index<br>
+which is defined as the leading principal component ofmonthly SSTAs over the North Pacific poleward of 20°N. More details on this index can be found inMantuaet al. (1997).</p>
+<p>the quasigeostrophic refractive index(RI) is employed to understand the planetary wavepropagation, which is defined byChen and Robinson(1992)as</p>
+]]></content>
+    </entry>
+</feed>

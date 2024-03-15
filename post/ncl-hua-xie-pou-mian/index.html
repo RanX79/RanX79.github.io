@@ -1,0 +1,298 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ncl画斜剖面 | Ran Xue</title>
+<link rel="shortcut icon" href="https://RanX79.github.io//favicon.ico?v=1710485274652">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://RanX79.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="ncl画斜剖面 | Ran Xue - Atom Feed" href="https://RanX79.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="趁着今天顺利挂上了github，赶紧同步一下！
+主要参考ncl官网中的例子：narr_5.ncl，但该例子多了对曲面网格数据的处理,首先利用了ESMF_regrid_with_weights进行网格化生成直线网格，如果用再分析资料个人觉得可..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://RanX79.github.io/">
+  <img class="avatar" src="https://RanX79.github.io//images/avatar.png?v=1710485274652" alt="">
+  </a>
+  <h1 class="site-title">
+    Ran Xue
+  </h1>
+  <p class="site-description">
+    是冉冉升起的冉
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              ncl画斜剖面
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-15
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://RanX79.github.io//post-images/ncl-hua-xie-pou-mian.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>趁着今天顺利挂上了github，赶紧同步一下！</p>
+<p>主要参考ncl官网中的例子：<a href="https://www.ncl.ucar.edu/Applications/height_lat.shtml">narr_5.ncl</a>，但该例子多了对曲面网格数据的处理,首先利用了ESMF_regrid_with_weights进行网格化生成直线网格，如果用再分析资料个人觉得可以不用这一步。</p>
+<p>主要分为两步，首先是大圆路径，主要使用ncl中gc_latlon这个函数，该函数中设置变量时有一个常数npts，为x轴的点数，根据需要设置，一般设置越大数据越密。接下来进行插值，使用双线性插值从直线网格插值到非结构化网格，使用linint2_points_Wrap这个函数。</p>
+<p>在实际画图中，遇到的问题是最后画图设置的经纬度，因为地球是球面，所以经纬度不是均匀的，设置时需要画gc_latlon 函数对应的经纬度。在选择的经度范围跨越半球时，两点之间的方向不可控制，这是因为gc_latlon这个函数的问题，试了多次也没解决，只能选择不跨越半球了。<br>
+If the two specified points are exactly opposite one another on the globe, the code does not fail, but the direction of the great circle route will be somewhat unpredictable. Setting npts &lt;= 2 has the effect of just calculating the great circle distance between the two input points. No lat/lon points will be interpolated in between.<br>
+最后出现的警告，猜测是由于网格的不均匀分布造成的，但对画图的结果好像没有影响。<br>
+warning:ScalarFieldSetValues: irregular coordinate array sfXArray non-monotonic: defaulting sfXArray<br>
+更新一下，最后出现的警告是因为我！写代码的时候忘记删掉cyclic=&quot;True&quot;这一行设置了！所以坐标就会出现警告！（问题不大</p>
+<pre><code>;=================================================================
+
+;----------------斜刨面
+
+;  calculate great circle along transect
+
+npts=600 ;The actual number of interpolated points is npts-2.
+
+N1=npts-1
+
+nLabels      = 5   ;x轴坐标想要的标签数目
+
+fiCyclicX    =True ;注意数据是否循环
+
+;选取的两个点
+
+leftlat  =  45
+
+rightlat =  80
+
+leftlon  =  300
+
+rightlon =  357.5
+
+;attention:数据是从0-360 or -180-180
+
+;lonFlip 可以使用该函数转换
+
+dist = gc_latlon(leftlat,leftlon, rightlat,rightlon, npts,2) ;大圆路径
+
+;插值 变量为Fx_pos_10_area
+
+xlon=Fx_pos_10_area&amp;lon
+
+xlat=Fx_pos_10_area&amp;lat
+
+Fx_pos_10_cross = linint2_points_Wrap(xlon,xlat,Fx_pos_10_area,fiCyclicX,dist@gclon,dist@gclat,2)
+
+;插值后赋予变量属性
+
+Fx_pos_10_cross!0      = &quot;time&quot;
+
+Fx_pos_10_cross!1      = &quot;level&quot;
+
+Fx_pos_10_cross&amp;level= Fx_pos_10_area&amp;level
+
+;-----对应的经纬度
+
+latXsecUser  = dist@gclat      ; convenience
+
+lonXsecUser  = dist@gclon
+
+print (dist@gclat+&quot;  &quot;+dist@gclon )  ; print the lats/lons
+
+;--------画图时x轴坐标设置
+
+;数据从0-360
+
+XBValues_pos    = toint( fspan(0,N1,nLabels) )
+
+XBLabels_pos    = new(nLabels,&quot;string&quot;)
+
+do i=0,nLabels-1
+
+x = lonXsecUser(XBValues_pos(i))
+
+y = latXsecUser(XBValues_pos(i))
+
+if(x.lt.180)then
+XBLabels_pos(i) = sprintf(&quot;%3.1f&quot;, y)+&quot;N&quot;+&quot;~C~&quot;+sprintf(&quot;%3.1f&quot;, x)+&quot;E&quot;
+
+else if(x.gt.180.and.x.le.360)then
+
+x1=360-x
+
+XBLabels_pos(i) = sprintf(&quot;%3.1f&quot;, y)+&quot;N&quot;+&quot;~C~&quot;+sprintf(&quot;%3.1f&quot;,x1)+&quot;W&quot;
+
+else if(x.eq.180.or.x.eq.360)then
+
+XBLabels_pos(i) = sprintf(&quot;%5.1f&quot;, y)+&quot;N&quot;+&quot;~C~&quot;+sprintf(&quot;%5.1f&quot;, x)
+end if
+
+end if
+
+end if
+
+end do
+
+res@tmXBMode   = &quot;Explicit&quot;
+
+res@tmXBValues = XBValues_pos
+
+res@tmXBLabels = XBLabels_pos
+</code></pre>
+<p>图片类似这样吧！<br>
+<img src="https://RanX79.github.io//post-images/1710485272971.png" alt="" loading="lazy"></p>
+<p>ps：最近读文献才发现，看你研究方向热不热门，就看看高质量期刊新出的文章跟你的方向差不多的多不多；然后发现我的方向真！离大谱！（不是 我爱科研</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://RanX79.github.io/post/rws-bo-yuan/">
+              <h3 class="post-title">
+                RWS波源
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '56be7867f051d340452d',
+    clientSecret: '7dabf01519680ef7221f9138b1797c4af21676d9',
+    repo: 'RanX79.github.io',
+    owner: 'RanX79',
+    admin: ['RanX79'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  今天也要好好学习哦！
+  <a class="rss" href="https://RanX79.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
